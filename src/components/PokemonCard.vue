@@ -10,6 +10,9 @@
             </div>
             <img :src="pokemon.sprites.default" alt="default">
             <img :src="pokemon.sprites.shiny" alt="shiny">
+            <div class="pokedex-col" v-for="stat in pokemon.pokemonStats" :key="stat">
+                <p>{{ stat.stat }} {{ stat.baseStat }}</p>
+            </div>
             <div class="pokedex-col pokedex-justify-space-between" v-for="ability in pokemon.abilities" :key="ability">
                 <p>{{ ability.ability }}</p>
                 <p>{{ ability.is_hidden }}</p>
@@ -30,6 +33,8 @@
     import getPokemonAbilities from "../functions/getPokemonAbilities";
     import getPokemonSprites from "../functions/getPokemonSprites";
     import getPokemonTypes from "../functions/getPokemonTypes";
+    import getPokemonMoves from "../functions/getPokemonMoves";
+    import getPokemonStats from "../functions/getPokemonStats";
 
     export default defineComponent({
         name: "pokemon-card" ,
@@ -57,10 +62,9 @@
                                 weight: (res.data.weight / 10),
                                 sprites: getPokemonSprites(res.data.sprites) , 
                                 abilities: getPokemonAbilities(res.data.abilities) ,
-                                pokemonTypes: getPokemonTypes(res.data.types)
+                                pokemonTypes: getPokemonTypes(res.data.types) ,
+                                pokemonStats: getPokemonStats(res.data.stats)
                             };
-                            
-                            console.log(getEvolutionChain(res.data.species.url));
 
                             this.POKEMON_LIST.push(pokemon);
                         });
