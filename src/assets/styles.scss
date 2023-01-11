@@ -1,0 +1,40 @@
+* {
+    font-family: 'Rubik', sans-serif;
+    color: #3F3F3F;
+    font-size: normal;
+}
+  
+.pokedex-background-color {
+background-color: #F2F2F2;
+}
+  
+.pokedex-col {
+display: flex;
+flex-direction: column;
+}
+  
+.pokedex-row {
+display: flex;
+flex-direction: row;
+}
+  
+.pokedex-full-height {
+height: 100%;
+}
+
+.pokedex-full-width {
+width: 100%;
+}
+
+.pokedex-justify-space-between {
+justify-content: space-between;
+}
+  
+.pokedex-justify-center {
+justify-content: center;
+}
+
+.pokedex-align-items-center {
+    display: flex;
+    align-items: center;
+}
