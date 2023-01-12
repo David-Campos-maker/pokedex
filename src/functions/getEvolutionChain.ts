@@ -16,11 +16,11 @@ export default function getEvolutionChain(url: any): Array<string> {
             do {
                 const numberOfEvolutions = evoData['evolves_to'].length;
 
-                evoChain.push(evoData.species.name[0].toUpperCase() + evoData.species.name.substring(1));
+                evoChain.push(evoData.species.name);
 
                 if(numberOfEvolutions > 1) {
                     for(let i = 1; i < numberOfEvolutions; i++) {
-                        evoChain.push( evoData.evolves_to[i].species.name[0].toUpperCase() + evoData.evolves_to[i].species.name.substring(1))
+                        evoChain.push( evoData.evolves_to[i].species.name)
                     }
                 }
 
