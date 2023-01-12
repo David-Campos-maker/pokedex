@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts">
-  import PokemonCard from '../src/components/PokemonCard.vue';
+  import PokemonCard from '../src/components/PokemonCard/PokemonCard.vue';
   
   export default {
     components: {

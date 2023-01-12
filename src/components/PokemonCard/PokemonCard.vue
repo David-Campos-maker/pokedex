@@ -1,8 +1,8 @@
 <template>
     <div>
         <h1>Pokemon Card Component</h1>
-        <div class="pokemon-card__container" v-for="pokemon in POKEMON_LIST" :key="pokemon">
-            <div class="pokedex-row">
+        <div class="pokemon-card__container pokedex-row pokedex-align-items-center" v-for="pokemon in POKEMON_LIST" :key="pokemon">
+            <div class="pokedex-col pokedex-justify-center pokedex-align-items-center">
                 <h3>{{ pokemon.name }}</h3>
                 <p>#{{ pokemon.id }}</p>
                 <p>{{ pokemon.height }}m</p>
@@ -11,17 +11,17 @@
 
             <img :src="pokemon.sprites.default" alt="default">
 
-            <div class="pokedex-row pokedex-align-items-center" v-for="evolution in pokemon.evolutionChain" :key="evolution">
+            <div class="pokedex-col pokedex-justify-center pokedex-align-items-center" v-for="evolution in pokemon.evolutionChain" :key="evolution">
                 <p>{{ evolution }}</p>
             </div>
-            <div class="pokedex-row" v-for="stat in pokemon.pokemonStats" :key="stat">
+            <div class="pokedex-row pokedex-justify-center pokedex-align-items-center" v-for="stat in pokemon.pokemonStats" :key="stat">
                 <p>{{ stat.stat }} {{ stat.baseStat }}</p>
             </div>
             <!-- <div class="pokedex-col pokedex-justify-space-between" v-for="ability in pokemon.abilities" :key="ability">
                 <p>{{ ability.ability }}</p>
                 <p>{{ ability.is_hidden }}</p>
             </div> -->
-            <div class="pokedex-row" v-for="pokemon_type in pokemon.pokemonTypes" :key="pokemon_type">
+            <div class="pokedex-row pokedex-justify-center pokedex-align-items-center" v-for="pokemon_type in pokemon.pokemonTypes" :key="pokemon_type">
                 <h4>{{ pokemon_type.pokemonType }}</h4>
             </div>
         </div>
@@ -30,14 +30,14 @@
 
 <script lang="ts">
     import { defineComponent } from "vue";
-    import  Pokemon from "../entities/Pokemon";
-    import api from "../services/api";
-    import getEvolutionChain from "../functions/getEvolutionChain";
-    import getPokemonAbilities from "../functions/getPokemonAbilities";
-    import getPokemonSprites from "../functions/getPokemonSprites";
-    import getPokemonTypes from "../functions/getPokemonTypes";
-    import getPokemonMoves from "../functions/getPokemonMoves";
-    import getPokemonStats from "../functions/getPokemonStats";
+    import  Pokemon from "../../entities/Pokemon";
+    import api from "../../services/api";
+    import getEvolutionChain from "../../functions/getEvolutionChain";
+    import getPokemonAbilities from "../../functions/getPokemonAbilities";
+    import getPokemonSprites from "../../functions/getPokemonSprites";
+    import getPokemonTypes from "../../functions/getPokemonTypes";
+    import getPokemonMoves from "../../functions/getPokemonMoves";
+    import getPokemonStats from "../../functions/getPokemonStats";
 
     export default defineComponent({
         name: "pokemon-card" ,
@@ -55,9 +55,9 @@
 
         methods: {
             getPokemons() {
-                api.get('pokemon?limit=151&offset=0').then((response) => {
+                api.get('pokemon?limit=151&offset=0').then((response:any) => {
                     response.data.results.forEach((element:any) => {
-                        api.get(element.url).then((res) => {
+                        api.get(element.url).then((res:any) => {
                             let id = ("000" + res.data.id).slice(-3) ;
                             let name = res.data.name;
                             let height = res.data.height;
