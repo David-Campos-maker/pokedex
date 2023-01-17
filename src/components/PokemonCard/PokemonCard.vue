@@ -1,29 +1,7 @@
 <template>
     <div>
-        <h1>Pokemon Card Component</h1>
-        <div class="pokemon-card__container pokedex-row pokedex-align-items-center" v-for="pokemon in POKEMON_LIST" :key="pokemon">
-            <div class="pokedex-col pokedex-justify-center pokedex-align-items-center">
-                <h3>{{ pokemon.name }}</h3>
-                <p>#{{ pokemon.id }}</p>
-                <p>{{ pokemon.height }}m</p>
-                <p>{{ pokemon.weight }}Kg</p>
-            </div>
-
-            <img :src="pokemon.sprites.default" alt="default">
-
-            <div class="pokedex-col pokedex-justify-center pokedex-align-items-center" v-for="evolution in pokemon.evolutionChain" :key="evolution">
-                <p>{{ evolution }}</p>
-            </div>
-            <div class="pokedex-row pokedex-justify-center pokedex-align-items-center" v-for="stat in pokemon.pokemonStats" :key="stat">
-                <p>{{ stat.stat }} {{ stat.baseStat }}</p>
-            </div>
-            <!-- <div class="pokedex-col pokedex-justify-space-between" v-for="ability in pokemon.abilities" :key="ability">
-                <p>{{ ability.ability }}</p>
-                <p>{{ ability.is_hidden }}</p>
-            </div> -->
-            <div class="pokedex-row pokedex-justify-center pokedex-align-items-center" v-for="pokemon_type in pokemon.pokemonTypes" :key="pokemon_type">
-                <h4>{{ pokemon_type.pokemonType }}</h4>
-            </div>
+        <div class="pokemon-card__container" v-for="pokemon in POKEMON_LIST" :key="pokemon">
+            <info-card :pokemon="pokemon"></info-card>
         </div>
     </div>
 </template>
@@ -38,8 +16,10 @@
     import getPokemonTypes from "../../functions/getPokemonTypes";
     import getPokemonMoves from "../../functions/getPokemonMoves";
     import getPokemonStats from "../../functions/getPokemonStats";
+    import InfoCard from "../InfoCard/InfoCard.vue";
 
     export default defineComponent({
+  components: { InfoCard },
         name: "pokemon-card" ,
         data() {  
             const POKEMON_LIST: Array<Pokemon> = [];
@@ -84,4 +64,5 @@
 </script>
 
 <style scoped>
+@import './styles.scss';
 </style>
