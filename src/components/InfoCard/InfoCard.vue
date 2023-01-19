@@ -24,11 +24,18 @@
             </div>
 
             <div class="info-card__pokemon-types">
-                <span class="info-card__pokemon-types__type" v-for="types in pokemon?.pokemonTypes" :key="types">
+                <span v-bind:class="types.pokemonType" v-for="(types , index) of pokemon?.pokemonTypes" :key="types">
                     {{ types.pokemonType }}
+                    <span class="before-type" v-if="index != Object.keys(pokemon.pokemonTypes).length - 1"></span>
                 </span>
             </div>
 
+            <div class="info-card__pokemon-abilities">
+                <div v-for="ability in pokemon?.abilities" :key="ability">
+                    <span class="hidden_ability" v-if="ability.is_hidden == true">{{ ability.ability }}</span>
+                    <span v-else>{{ ability.ability }}</span>
+                </div>
+            </div>
         </div>
     </div>
   
@@ -47,6 +54,6 @@
     })
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 @import "./styles.scss";
 </style>

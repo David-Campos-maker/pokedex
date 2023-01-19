@@ -12,7 +12,7 @@ export default function getPokemonTypes(types: Array<any>): Array<IPokemonType> 
 
     for(index in types) {
         const type: IPokemonType = {
-            pokemonType: types[index].type.name.toUpperCase() 
+            pokemonType: types[index].type.name 
         } 
         results.push(type);
     }

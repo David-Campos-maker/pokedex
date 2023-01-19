@@ -6,7 +6,7 @@ export default function getPokemonStats(stats: Array<any>): Array<IPokemonStats>
 
     for(index in stats) {
         const stat: IPokemonStats = {
-            stat: stats[index].stat.name.replace(/-/g , " ").toUpperCase(),
+            stat: stats[index].stat.name.replace(/-/g , " "),
             baseStat: stats[index].base_stat
         } 
         resulst.push(stat);

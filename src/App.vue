@@ -12,6 +12,6 @@
     name: "pokedex-home"
   }
 </script>
-<style scoped>
-@import './assets/styles.scss'
+<style scoped lang="scss">
+@import "../src/assets/scss/styles.scss";
 </style>
