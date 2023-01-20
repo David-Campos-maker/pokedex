@@ -50,7 +50,7 @@
 
 .info-card__pokemon-height {
     position: absolute;
-    top: -5%;
+    top: -4%;
     left: -5%;
     width: 60px;
     font-size: 15px;
@@ -59,11 +59,12 @@
     background-color: #FFF;
     border-radius: 40px;
     box-shadow: 10px 10px 60px #E9E8E7;
+    border-top: 2px solid #E72E2E;
 }
 
 .info-card__pokemon-weigth {
     position: absolute;
-    top: 72%;
+    top: 76%;
     left: 86%;
     width: 60px;
     font-size: 14px;
@@ -72,9 +73,11 @@
     background-color: #FFF;
     border-radius: 40px;
     box-shadow: 10px 10px 60px #E9E8E7;
+    border-top: 2px solid #E72E2E;
 }
 
 .info-card__pokemon-abilities {
+    text-transform: capitalize;
     color: #525150;
     font-weight: 500;
 }

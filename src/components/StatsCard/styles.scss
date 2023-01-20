@@ -1,0 +1,29 @@
+.stats-card__stat {
+    text-transform: capitalize;
+    margin: 2px;
+    padding: 4px;
+}
+
+.stats-card__base-stat {
+    text-transform: capitalize;
+    margin: 3px;
+    margin-right: 2px;
+    padding: 4px;
+}
+
+.stats-card__stat-info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.stat-card__quality-bar__container {
+    padding: 2px;
+}
+
+.stas-card__quality-bar {
+    background-color: #ebebeb;
+    width: 200px;
+    border-radius: 3PX;
+}

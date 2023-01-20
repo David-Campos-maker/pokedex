@@ -14,7 +14,7 @@ export default function getPokemonAbilities(abilities: Array<any>): Array<IPokem
 
     for(index in abilities) {
         const ability: IPokemonAbility = {
-            ability: abilities[index].ability.name[0].toUpperCase() + abilities[index].ability.name.replace(/-/g , " ").substring(1),
+            ability: abilities[index].ability.name.replace(/-/g , " "),
             is_hidden: abilities[index].is_hidden
         };
         list.push(ability);

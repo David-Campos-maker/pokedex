@@ -2,6 +2,7 @@
     <div>
         <div class="pokemon-card__container" v-for="pokemon in POKEMON_LIST" :key="pokemon">
             <info-card :pokemon="pokemon"></info-card>
+            <stats-card :pokemon="pokemon"></stats-card>
         </div>
     </div>
 </template>
@@ -17,10 +18,11 @@
     import getPokemonMoves from "../../functions/getPokemonMoves";
     import getPokemonStats from "../../functions/getPokemonStats";
     import InfoCard from "../InfoCard/InfoCard.vue";
+    import StatsCard from "../StatsCard/StatsCard.vue";
 
     export default defineComponent({
-  components: { InfoCard },
-        name: "pokemon-card" ,
+    components: { InfoCard , StatsCard},
+
         data() {  
             const POKEMON_LIST: Array<Pokemon> = [];
     
