@@ -24,6 +24,12 @@
 
 .stas-card__quality-bar {
     background-color: #ebebeb;
-    width: 200px;
+    width: 275px;
     border-radius: 3PX;
+}
+
+.stas-card__quality-bar__quality {
+    border-radius: 3px;
+    overflow: hidden;
+    height: 8px;
 }

@@ -4,7 +4,7 @@
             <p class="stats-card__stat">{{ stat.stat }}</p>
             <p class="stats-card__base-stat">{{ stat.baseStat}}</p>
             <div class="stas-card__quality-bar">
-                <div v-bind:style="getStyleClass(stat.baseStat)"></div>
+                <div class="stas-card__quality-bar__quality" v-bind:style="getStyleClass(stat.baseStat)"></div>
             </div>
         </div>
     </div>
@@ -22,12 +22,8 @@
             getStyleClass: function (baseStat: number): any {
                 if(baseStat <= 50) {
                     let results: any = {
-                        'border-radius':'3px',
-                        'background-color': '#ed1f1f',
-                        'overflow': 'hidden',
-                        'width': `${baseStat / 2}%`,
-                        'height': '8px',
-                        'position': 'relative',
+                        'background-color': '#f83117',
+                        'width': `${(baseStat * 100) / 275}%`,
                     }
 
                     return results;
@@ -35,63 +31,35 @@
 
                 if(baseStat <= 100) {
                     let results: any = {
-                        'border-radius':'3px',
-                        'background-color': '#f18c1a',
-                        'overflow': 'hidden',
-                        'width': `${baseStat / 2}%`,
-                        'height': '8px',
-                        'position': 'relative',
+                        'background-color': '#f87924',
+                        'width': `${(baseStat * 100) / 275}%`,
                     }
 
                     return results;
                 }
 
-                if(baseStat <= 140) {
+                if(baseStat <= 120) {
                     let results: any = {
-                        'border-radius':'3px',
-                        'background-color': '#ffd11a',
-                        'overflow': 'hidden',
-                        'width': `${baseStat / 2}%`,
-                        'height': '8px',
-                        'position': 'relative',
+                        'background-color': '#ffbb29',
+                        'width': `${(baseStat * 100) / 275}%`,
                     }
 
                     return results;
                 }
 
-                if(baseStat <= 180) {
+                if(baseStat <= 190) {
                     let results: any = {
-                        'border-radius':'3px',
-                        'background-color': '#22c02a',
-                        'overflow': 'hidden',
-                        'width': `${baseStat / 2}%`,
-                        'height': '8px',
-                        'position': 'relative',
+                        'background-color': '#2ecc19',
+                        'width': `${(baseStat * 100) / 275}%`,
                     }
 
                     return results;
                 }
 
-                if(baseStat <= 250) {
-                    if (baseStat >= 200) {
-                        let results: any = {
-                        'border-radius':'3px',
-                        'background-color': '#319de3',
-                        'overflow': 'hidden',
-                        'width': '200px',
-                        'height': '8px',
-                        'position': 'relative',
-                    }
-
-                    return results;
-                    }
+                if(baseStat > 190) {
                     let results: any = {
-                        'border-radius':'3px',
-                        'background-color': '#319de3',
-                        'overflow': 'hidden',
-                        'width': `${baseStat}px`,
-                        'height': '8px',
-                        'position': 'relative',
+                        'background-color': '#349dff',
+                        'width': `${(baseStat * 100) / 275}%`,
                     }
 
                     return results;
