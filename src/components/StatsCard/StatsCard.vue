@@ -20,45 +20,45 @@
 
         methods: {
             getStyleClass: function (baseStat: number): any {
-                if(baseStat <= 50) {
+                if(baseStat <= 55) {
                     let results: any = {
-                        'background-color': '#f83117',
+                        'background-color': '#fd3917',
                         'width': `${(baseStat * 100) / 275}%`,
                     }
 
                     return results;
                 }
 
-                if(baseStat <= 100) {
+                if(baseStat <= 110) {
                     let results: any = {
-                        'background-color': '#f87924',
+                        'background-color': '#fda726',
                         'width': `${(baseStat * 100) / 275}%`,
                     }
 
                     return results;
                 }
 
-                if(baseStat <= 120) {
+                if(baseStat <= 165) {
                     let results: any = {
-                        'background-color': '#ffbb29',
+                        'background-color': '#f7e819',
                         'width': `${(baseStat * 100) / 275}%`,
                     }
 
                     return results;
                 }
 
-                if(baseStat <= 190) {
+                if(baseStat <= 220) {
                     let results: any = {
-                        'background-color': '#2ecc19',
+                        'background-color': '#2fe43e',
                         'width': `${(baseStat * 100) / 275}%`,
                     }
 
                     return results;
                 }
 
-                if(baseStat > 190) {
+                if(baseStat > 220) {
                     let results: any = {
-                        'background-color': '#349dff',
+                        'background-color': '#6fa7fc',
                         'width': `${(baseStat * 100) / 275}%`,
                     }
 
