@@ -28,8 +28,32 @@
     border-radius: 3PX;
 }
 
-.stas-card__quality-bar__quality {
+.stas-card__quality-bar__very-low {
     border-radius: 3px;
-    overflow: hidden;
     height: 8px;
+    background-color: #FD3917;
+}
+
+.stas-card__quality-bar__low {
+    border-radius: 3px;
+    height: 8px;
+    background-color: #FFA825;
+}
+
+.stas-card__quality-bar__normal {
+    border-radius: 3px;
+    height: 8px;
+    background-color: #F8D228;
+}
+
+.stas-card__quality-bar__great {
+    border-radius: 3px;
+    height: 8px;
+    background-color: #38D345;
+}
+
+.stas-card__quality-bar__excellent {
+    border-radius: 3px;
+    height: 8px;
+    background-color: #42ADF5;
 }

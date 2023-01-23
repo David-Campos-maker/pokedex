@@ -4,7 +4,10 @@
             <p class="stats-card__stat">{{ stat.stat }}</p>
             <p class="stats-card__base-stat">{{ stat.baseStat}}</p>
             <div class="stas-card__quality-bar">
-                <div class="stas-card__quality-bar__quality" v-bind:style="getStyleClass(stat.baseStat)"></div>
+                <div class="stas-card__quality-bar__quality" 
+                    :class="getStyleClass(stat.baseStat)" 
+                    :style="getQualityBarWidth(stat.baseStat)">
+                </div>
             </div>
         </div>
     </div>
@@ -19,51 +22,21 @@
         props: {pokemon: Pokemon} , 
 
         methods: {
-            getStyleClass: function (baseStat: number): any {
-                if(baseStat <= 55) {
-                    let results: any = {
-                        'background-color': '#fd3917',
-                        'width': `${(baseStat * 100) / 275}%`,
-                    }
+            getStyleClass(baseStat: number): string {
+                let result !: string
 
-                    return results;
-                }
+                if(baseStat <= 55) result = "stas-card__quality-bar__very-low";
+                if(baseStat > 55 && baseStat <= 110) result = "stas-card__quality-bar__low";
+                if(baseStat > 110 && baseStat <= 165) result = "stas-card__quality-bar__normal";
+                if(baseStat > 165 && baseStat <= 220) result = "stas-card__quality-bar__great";
+                if(baseStat > 220) result = "stas-card__quality-bar__excellent";
 
-                if(baseStat <= 110) {
-                    let results: any = {
-                        'background-color': '#fda726',
-                        'width': `${(baseStat * 100) / 275}%`,
-                    }
+                return result;
+            },
 
-                    return results;
-                }
-
-                if(baseStat <= 165) {
-                    let results: any = {
-                        'background-color': '#f7e819',
-                        'width': `${(baseStat * 100) / 275}%`,
-                    }
-
-                    return results;
-                }
-
-                if(baseStat <= 220) {
-                    let results: any = {
-                        'background-color': '#2fe43e',
-                        'width': `${(baseStat * 100) / 275}%`,
-                    }
-
-                    return results;
-                }
-
-                if(baseStat > 220) {
-                    let results: any = {
-                        'background-color': '#6fa7fc',
-                        'width': `${(baseStat * 100) / 275}%`,
-                    }
-
-                    return results;
-                }
+            getQualityBarWidth: function(baseStat: number): string {
+                let result = `width: ${(baseStat * 100) / 275}%`;
+                return result;
             }
         }
     })
