@@ -21,6 +21,26 @@
                     <span class="before-type" v-if="index != Object.keys(pokemon.pokemonTypes).length - 1"></span>
                 </span>
             </div>
+
+            <!-- Button trigger modal -->
+            <button type="button" class="btn info-card__btn-trigger-modal" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Show Details
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-xl">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body show-details__container">
+                            <move-card :pokemon="pokemon"></move-card>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
   
@@ -29,8 +49,11 @@
 <script lang="ts">
     import {defineComponent} from "vue";
     import Pokemon from "../../entities/Pokemon";
+    import MoveCard from "../MovesCard/MoveCard.vue";
 
     export default  defineComponent({
+        components: { MoveCard } ,
+
         name: "info-card" ,
 
         props: {

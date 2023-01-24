@@ -13,8 +13,8 @@
 }
 
 .info-card__card {
-    width: 270px;
-    height: 167px;
+    width: 275px;
+    height: 240px;
     padding: 5px;
     margin: 5px;
 }
@@ -40,11 +40,13 @@
 .info-card__pokemon-name {
     font-size: 20px;
     font-weight: 700;
-    margin-top: 0%;
+    margin-top: -11%;
     padding: 5px;
 }
 
 .info-card__pokemon-types {
+    padding: 5px;
+    margin-top: -3%;
     font-size: 13px;
     font-weight: 800;
     display: flex;
@@ -72,7 +74,6 @@
     background-color: #FFF;
     border-radius: 40px;
     box-shadow: 10px 10px 60px #E9E8E7;
-    border-top: 2px solid #E72E2E;
 }
 
 .info-card__pokemon-weigth {
@@ -86,7 +87,6 @@
     background-color: #FFF;
     border-radius: 40px;
     box-shadow: 10px 10px 60px #E9E8E7;
-    border-top: 2px solid #E72E2E;
 }
 
 .info-card__pokemon-abilities {
@@ -110,6 +110,22 @@
     margin-right: 5px;
     vertical-align: middle;
     width: 6px;
+}
+
+.show-details__container {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.info-card__btn-trigger-modal {
+    background-color: #2a92e7;
+    color: #F2F2F2;
+    border-radius: 12px;
+    margin-top: 3%;
 }
 
 // Type colors
