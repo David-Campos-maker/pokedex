@@ -9,7 +9,7 @@ export default function getPokemonMoves(moves: Array<any>): Array<string> {
     let index: any;
 
     for(index in moves) {
-        result.push(moves[index].move.name);
+        result.push(moves[index].move.url);
     }
 
     return result;

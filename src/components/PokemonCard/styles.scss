@@ -1,6 +1,13 @@
 .pokemon-card__container {
-    align-items: center;
-    display: flex;
+    display: inline-flex;
+    align-content: center;
+    align-items: baseline;
+    padding: 12px;
+    flex-direction: row;
     flex-wrap: wrap;
-    padding: 30px 20px 20px;
+    justify-content: space-between;
+}
+
+.pokedex__main-container {
+    margin-left: 8%;
 }

@@ -1,8 +1,7 @@
 <template>
-    <div>
+    <div class="pokedex__main-container">
         <div class="pokemon-card__container" v-for="pokemon in POKEMON_LIST" :key="pokemon">
             <info-card :pokemon="pokemon"></info-card>
-            <stats-card :pokemon="pokemon"></stats-card>
         </div>
     </div>
 </template>
@@ -18,10 +17,9 @@
     import getPokemonMoves from "../../functions/getPokemonMoves";
     import getPokemonStats from "../../functions/getPokemonStats";
     import InfoCard from "../InfoCard/InfoCard.vue";
-    import StatsCard from "../StatsCard/StatsCard.vue";
 
     export default defineComponent({
-    components: { InfoCard , StatsCard},
+    components: { InfoCard },
 
         data() {  
             const POKEMON_LIST: Array<Pokemon> = [];
@@ -53,8 +51,6 @@
 
                             let pokemon = new Pokemon(abilities , evolutionChain , height , id , name , pokemonStats ,
                                 pokemonTypes , moves , sprites , weight);
-                            
-                            console.log(pokemon.evolutionChain);
 
                             this.POKEMON_LIST.push(pokemon);
                         });
@@ -66,5 +62,5 @@
 </script>
 
 <style scoped lang="scss">
-@import './styles.scss';
+    @import './styles.scss';
 </style>
