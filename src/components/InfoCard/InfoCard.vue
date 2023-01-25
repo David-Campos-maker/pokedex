@@ -23,20 +23,20 @@
             </div>
 
             <!-- Button trigger modal -->
-            <button type="button" class="btn info-card__btn-trigger-modal" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            <button @click="toggleModal() , getMoves()" type="button" class="btn info-card__btn-trigger-modal" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 Show Details
             </button>
 
             <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal fade" ref="info-modal" tabindex="-1" aria-labelledby="" aria-hidden="true">
                 <div class="modal-dialog modal-xl">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">{{ pokemon?.name }}</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body show-details__container">
-                            <move-card :pokemon="pokemon"></move-card>
+                            <move-card v-bind:moves="moves"></move-card>
                         </div>
                     </div>
                 </div>
@@ -49,6 +49,8 @@
 <script lang="ts">
     import {defineComponent} from "vue";
     import Pokemon from "../../entities/Pokemon";
+    import type IMoves from '../../Interfaces/IMoves';
+    import api from "../../services/api";
     import MoveCard from "../MovesCard/MoveCard.vue";
 
     export default  defineComponent({
@@ -59,6 +61,50 @@
         props: {
             pokemon: Pokemon,
         },
+
+        data() {
+            let modalRef: any = null;
+            let moves: Array<IMoves> = [];
+
+            return {
+                modalRef ,
+                moves
+            }
+        },
+
+        mounted() {
+            this.$refs["info-modal"];
+        },
+
+        methods: {
+            toggleModal() {
+                if(!this.modalRef) {
+                    this.modalRef = new (window as any).bootstrap.Modal(this.$refs["info-modal"]);
+                }
+                this.modalRef.toggle();
+            },
+
+            getMoves() {
+                this.pokemon?.moves.forEach((move: string) => {
+
+                    api.get(move).then(res => {
+                        const object: IMoves = {
+                            name: res.data.name ,
+                            accuracy: res.data.accuracy ,
+                            damage_class: res.data.damage_class.name ,
+                            power: res.data.power ,
+                            pp: res.data.pp ,
+                            priority: res.data.priority ,
+                            type: res.data.type.name
+                        }
+                        
+                        this.moves.push(object);
+                    });
+                })
+
+                console.log(this.moves);
+            }
+        }
     })
 </script>
 
