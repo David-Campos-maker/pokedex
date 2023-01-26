@@ -1,18 +1,19 @@
 .move-card__container {
-    width: 500px;
+    width: 485px;
     height: 600px;
+    overflow: scroll;
     overflow-x: hidden;
     background-color: #FFF;
+    border-radius: 9px;
 }
 
 .moves-card__content {
-    height: 70px;
+    height: 104px;
     margin: 2%;
-    margin-top: 6%;
     background-color: #FFF;
-    border-radius: 20px;
-    box-shadow: 10px 10px 60px #E9E8E7;
-    padding: 5px;
+    padding-top: 28px;
+    width: 469px;
+    border-bottom: 1px solid #C9C9C9;
 }
 
 .move-card__title {
@@ -22,16 +23,25 @@
     align-content: center;
     justify-content: space-between;
     align-items: flex-start;
-    margin: 10px;
-    line-height: 10px;
+    line-height: 30px;
+    background-color: #d0e3ff;
+    position: fixed;
+    width: 467px;
+    border-radius: 9px 0px 0px 0px;
+}
+
+.move-card__title__content {
+    margin-left: 1%;
+    display: contents;
+
 }
 
 .move-card__detail-title {
-    width: 90px;
+    width: 80px;
 }
 
 .move-title {
-    width: 100px;
+    width: 102px;
 }
 
 .move-card__move {
@@ -41,6 +51,9 @@
     align-content: center;
     justify-content: space-between;
     align-items: flex-start;
+    line-height: 15px;
+    width: 467px;
+    border-radius: 9px 0px 0px 0px;
 }
 
 .move-card__move-detais {
@@ -50,162 +63,293 @@
     align-content: center;
     justify-content: space-around;
     align-items: flex-start;
-    margin-top: 2%;
+    margin-top: 4%;
 }
 
 .move-card__move-name {
     text-transform: capitalize;
-    width: 110px;
+    width: 102px;
 }
 
 .move-card__move-power {
-    width: 90px;
+    width: 100px;
 }
 
 .move-card__move-accuracy {
-    width: 90px;
+    width: 100px;
 }
 
 .move-card__move-pp {
-    width: 90px;
+    width: 100px;
 }
 
 .move-card__move-type {
-    border-radius: 10px;
-    width: 70px;
+    border-radius: 5px;
+    width: 110px;
+    height: 26px;
+    font-weight: 300;
 }
 
 .move-card__move-damage-class {
-    border-radius: 10px;
-    width: 70px;
+    border-radius: 5px;
+    width: 90px;
+    height: 26px;
+    font-style: italic;
+    font-weight: 300;
 }
 
 /*Damage Class*/
 
 .special {
-    background-color: #3260F7;
+    background-color: #5872c5;
     color: #FFF;
     text-transform: uppercase;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
 }
 
 .physical {
-    background-color: #C02B23;
+    background-color: #cc4c46;
     color: #FFF;
     text-transform: uppercase;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
 }
 
 .status {
-    background-color: #696562;
+    background-color: #a1a1a1;
     color: #FFF;
     text-transform: uppercase;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
 }
 
 /*Types*/
 
 .normal {
-    background-color: #A1A1A1;
+    background-color: #BDAB8B;
     color: #FFF;
     text-transform: uppercase;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
 }
 
 .fighting {
     background-color: #BB463f;
     color: #FFF;
     text-transform: uppercase;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
 }
 
 .flying {
-    background-color: #969CEC;
+    background-color: #9097ee;
     color: #FFF;
     text-transform: uppercase;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
 }
 
 .poison {
     background-color: #A035A0;
     color: #FFF;
     text-transform: uppercase;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
 }
 
 .ground {
     background-color: #D1A044;
     color: #FFF;
     text-transform: uppercase;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
 }
 
 .rock {
-    background-color: #AA963e;
+    background-color: #9c8b3e;
     color: #FFF;
     text-transform: uppercase;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
 }
 
 .bug {
-    background-color: #AAC923;
+    background-color: #a1bd27;
     color: #FFF;
     text-transform: uppercase;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
 }
 
 .ghost {
     background-color: #63409C;
     color: #FFF;
     text-transform: uppercase;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
 }
 
 .steel {
-    background-color: #7D9BA7;
+    background-color: #78a0af;
     color: #FFF;
     text-transform: uppercase;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
 }
 
 .fire {
     background-color: #F07722;
     color: #FFF;
     text-transform: uppercase;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
 }
 
 .water {
     background-color: #5787F7;
     color: #FFF;
     text-transform: uppercase;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
 }
 
 .grass {
-    background-color: #22C02A;
+    background-color: #32af38;
     color: #FFF;
     text-transform: uppercase;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
 }
 
 .electric {
     background-color: #E0C423;
     color: #FFF;
     text-transform: uppercase;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
 }
 
 .psychic {
     background-color: #F52675;
     color: #FFF;
     text-transform: uppercase;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
 }
 
 .ice {
     background-color: #51C2C2;
     color: #FFF;
     text-transform: uppercase;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
 }
 
 .dragon {
-    background-color: #4836EB;
+    background-color: #5544f0;
     color: #FFF;
     text-transform: uppercase;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
 }
 
 .dark {
     background-color: #423D39;
     color: #FFF;
     text-transform: uppercase;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
 }
 
 .fairy {
     background-color: #EE92D5;
     color: #FFF;
     text-transform: uppercase;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
 }

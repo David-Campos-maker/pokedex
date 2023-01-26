@@ -47,7 +47,7 @@
 
 .info-card__pokemon-types {
     padding: 5px;
-    margin-top: -3%;
+    margin-top: 0%;
     font-size: 13px;
     font-weight: 800;
     display: flex;
@@ -120,10 +120,11 @@
     align-content: center;
     justify-content: center;
     align-items: flex-start;
+    background-color: #F8F9FA;
 }
 
 .info-card__btn-trigger-modal {
-    background-color: #E73434;;
+    background-color: #E73434;
     color: #F2F2F2;
     border-radius: 9px;
     margin-top: 3%;
@@ -139,12 +140,13 @@
 
 .info-card__modal-name {
     text-transform: capitalize;
+    margin-right: 3%;
 }
 
 // Type colors
 
 .normal {
-    color: #A1A1A1;
+    color: #BDAB8B;
 }
 
 .fighting {
@@ -152,7 +154,7 @@
 }
 
 .flying {
-    color: #969CEC;
+    color: #9097ee;
 }
 
 .poison {
@@ -164,11 +166,11 @@
 }
 
 .rock {
-    color: #AA963e;
+    color: #9c8b3e;
 }
 
 .bug {
-    color: #AAC923;
+    color: #a1bd27;
 }
 
 .ghost {
@@ -176,7 +178,7 @@
 }
 
 .steel {
-    color: #7D9BA7;
+    color: #78a0af;
 }
 
 .fire {
@@ -188,7 +190,7 @@
 }
 
 .grass {
-    color: #22C02A;
+    color: #32af38;
 }
 
 .electric {
@@ -204,7 +206,7 @@
 }
 
 .dragon {
-    color: #4836EB;
+    color: #5544f0;
 }
 
 .dark {

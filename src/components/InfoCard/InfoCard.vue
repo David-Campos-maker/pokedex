@@ -32,7 +32,15 @@
                 <div class="modal-dialog modal-xl">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h1 class="modal-title fs-5 info-card__modal-name" id="exampleModalLabel">{{ pokemon?.name }}</h1>
+                            <h1 class="modal-title fs-5 info-card__modal-name" id="exampleModalLabel">
+                                {{ pokemon?.name }}
+                            </h1>
+                            <div class="info-card__pokemon-types">
+                                <span v-bind:class="types.pokemonType" v-for="(types , index) of pokemon?.pokemonTypes" :key="types">
+                                    {{ types.pokemonType }}
+                                    <span class="before-type" v-if="index != Object.keys(pokemon.pokemonTypes).length - 1"></span>
+                                </span>
+                            </div>
                             <button @click="clearMoves()" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body show-details__container">

@@ -1,17 +1,19 @@
 <template>
     <div class="move-card__container">
         <div class="move-card__title">
-            <div class="move-card__detail-title move-title">
-                Move
-            </div>
-            <div class="move-card__detail-title">
-                Power
-            </div>
-            <div class="move-card__detail-title">
-                Accuracy
-            </div>
-            <div class="move-card__detail-title">
-                PP
+            <div class="move-card__title__content">
+                <div class="move-card__detail-title move-title">
+                    Move
+                </div>
+                <div class="move-card__detail-title">
+                    Power
+                </div>
+                <div class="move-card__detail-title">
+                    Acc.
+                </div>
+                <div class="move-card__detail-title">
+                    PP
+                </div>
             </div>
         </div>
         <div class="moves-card__content" v-for="move in moves" :key="move">
@@ -23,10 +25,13 @@
                     <div v-if="move.power != null">
                         {{ move.power }}
                     </div>
-                    <div v-else>0</div>
+                    <div v-else>-</div>
                 </div>
                 <div class="move-card__move-accuracy">
-                    {{ move.accuracy }}
+                    <div v-if="move.accuracy != null">
+                        {{ move.accuracy }}
+                    </div>
+                    <div v-else>-</div>
                 </div>
                 <div class="move-card__move-pp">
                     {{ move.pp }}

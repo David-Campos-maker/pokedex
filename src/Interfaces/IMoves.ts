@@ -1,8 +1,8 @@
 export default interface IMoves {
     name: string;
     damage_class: string;
-    power: boolean | number;
+    power: number | null;
     pp: number;
-    accuracy: number;
+    accuracy: number | null;
     type:  string;
 }
