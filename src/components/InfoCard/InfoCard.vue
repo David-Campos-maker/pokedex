@@ -44,6 +44,7 @@
                             <button @click="clearMoves()" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body show-details__container">
+                            <stats-card :pokemon="pokemon"></stats-card>
                             <move-card v-bind:moves="moves"></move-card>
                         </div>
                     </div>
@@ -60,9 +61,10 @@
     import type IMoves from '../../Interfaces/IMoves';
     import api from "../../services/api";
     import MoveCard from "../MovesCard/MoveCard.vue";
+    import StatsCard from "../StatsCard/StatsCard.vue";
 
     export default  defineComponent({
-        components: { MoveCard } ,
+        components: { MoveCard , StatsCard} ,
 
         name: "info-card" ,
 

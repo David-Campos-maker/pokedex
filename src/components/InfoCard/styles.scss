@@ -115,10 +115,10 @@
 
 .show-details__container {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     flex-wrap: wrap;
     align-content: center;
-    justify-content: center;
+    justify-content: space-between;
     align-items: flex-start;
     background-color: #F8F9FA;
 }
