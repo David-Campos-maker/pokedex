@@ -42,6 +42,7 @@
     font-weight: 700;
     margin-top: -11%;
     padding: 5px;
+    text-transform: capitalize;
 }
 
 .info-card__pokemon-types {
@@ -96,7 +97,7 @@
 }
 
 .hidden_ability {
-    color: #E72E2E;
+    color: #E73434;
     font-style: italic;
     font-weight: 500;
 }
@@ -122,16 +123,28 @@
 }
 
 .info-card__btn-trigger-modal {
-    background-color: #2a92e7;
+    background-color: #E73434;;
     color: #F2F2F2;
-    border-radius: 12px;
+    border-radius: 9px;
     margin-top: 3%;
+}
+
+.info-card__btn-trigger-modal:hover {
+    background-color: transparent;
+    color: #E73434;;
+    border-color: 1px solid #E73434;
+    border-radius: 14px;
+    transition: 0.3s;
+}
+
+.info-card__modal-name {
+    text-transform: capitalize;
 }
 
 // Type colors
 
 .normal {
-    color: #A8A8A8;
+    color: #A1A1A1;
 }
 
 .fighting {

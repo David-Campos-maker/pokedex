@@ -1,13 +1,24 @@
 <template>
-    <div class="pokedex__main-container">
-        <div class="pokemon-card__container" v-for="pokemon in POKEMON_LIST" :key="pokemon">
+    <div class="content pokedex__main-container">
+        <div class="form-outline pokedexe__search-bar">
+            <input v-model="input" type="search" class="form-control rounded pokedex__serach-pokemon" placeholder="Search for a Pokémon" aria-label="Search" aria-describedby="search-addon" />
+        </div>
+
+        <div class="pokemon-card__container" v-for="pokemon in filteredList()" :key="pokemon">
             <info-card :pokemon="pokemon"></info-card>
+        </div>
+
+        <div class="pokedex__no-pokemon-found" v-if="input&&!filteredList().length">
+            <p>No Pokémon found...</p>
+            <div class="pokedex__error-code">
+                4 <img class="pokedex__logo" src="../../assets/logo.png" alt="logo"> 4
+            </div>
         </div>
     </div>
 </template>
 
 <script lang="ts">
-    import { defineComponent } from "vue";
+    import { defineComponent  , ref} from "vue";
     import  Pokemon from "../../entities/Pokemon";
     import api from "../../services/api";
     import getEvolutionChain from "../../functions/getEvolutionChain";
@@ -23,9 +34,11 @@
 
         data() {  
             const POKEMON_LIST: Array<Pokemon> = [];
+            let input = ref("");
     
             return {
                 POKEMON_LIST ,
+                input
             };
         },
         
@@ -57,7 +70,13 @@
                     });
                 });
             },
-        },
+
+            filteredList() {
+                return this.POKEMON_LIST.filter((pokemon) =>
+                    pokemon.name.toLowerCase().includes(this.input.toLowerCase())
+                );
+            },
+        }
     });
 </script>
 

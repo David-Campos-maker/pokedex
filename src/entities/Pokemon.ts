@@ -23,7 +23,7 @@ export default class Pokemon {
             this.height = height / 10;
             this.id = ("000" + id).slice(-3);
             this.moves = moves;
-            this.name = name[0].toUpperCase() + name.substring(1);
+            this.name = name.replace(/-/g , " ");
             this.pokemonStats = pokemonStats;
             this.pokemonTypes = pokemonTypes;
             this.sprites = sprites;

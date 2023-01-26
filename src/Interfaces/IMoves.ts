@@ -4,6 +4,5 @@ export default interface IMoves {
     power: boolean | number;
     pp: number;
     accuracy: number;
-    priority: number;
     type:  string;
 }

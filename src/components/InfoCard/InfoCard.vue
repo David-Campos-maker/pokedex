@@ -32,7 +32,7 @@
                 <div class="modal-dialog modal-xl">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="exampleModalLabel">{{ pokemon?.name }}</h1>
+                            <h1 class="modal-title fs-5 info-card__modal-name" id="exampleModalLabel">{{ pokemon?.name }}</h1>
                             <button @click="clearMoves()" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body show-details__container">
@@ -89,20 +89,17 @@
 
                     api.get(move).then(res => {
                         const object: IMoves = {
-                            name: res.data.name ,
+                            name: res.data.name.replace(/-/g , " ") ,
                             accuracy: res.data.accuracy ,
                             damage_class: res.data.damage_class.name ,
                             power: res.data.power ,
                             pp: res.data.pp ,
-                            priority: res.data.priority ,
                             type: res.data.type.name
                         }
                         
                         this.moves.push(object);
                     });
                 })
-
-                console.log(this.moves);
             },
 
             clearMoves() {
