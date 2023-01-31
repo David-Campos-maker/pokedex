@@ -35,17 +35,33 @@
                             <h1 class="modal-title fs-5 info-card__modal-name" id="exampleModalLabel">
                                 {{ pokemon?.name }}
                             </h1>
+                            <button @click="clearMoves()" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body show-details__container">
+                            <div class="pokedex-col">
+                                <div class="show-details__pokemon-sprite">
+                                    <div class="show-details__sprite-default">
+                                        <img class="show-details__pokemon-sprite__img" :src="pokemon?.sprites.default" alt="sprite">
+                                    </div>
+                                    <div class="show-details__sprite-shiny">
+                                        <img class="show-details__pokemon-sprite__img" :src="pokemon?.sprites.shiny" alt="sprite">
+                                    </div>
+                                </div>
+                                <div class="show-details__stat-card">
+                                    <stats-card :pokemon="pokemon"></stats-card>
+                                </div>
+                            </div>
+                            
+                            
+                            <move-card v-bind:moves="moves"></move-card>
+                        </div>
+                        <div class="modal-footer">
                             <div class="info-card__pokemon-types">
                                 <span v-bind:class="types.pokemonType" v-for="(types , index) of pokemon?.pokemonTypes" :key="types">
                                     {{ types.pokemonType }}
                                     <span class="before-type" v-if="index != Object.keys(pokemon.pokemonTypes).length - 1"></span>
                                 </span>
                             </div>
-                            <button @click="clearMoves()" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body show-details__container">
-                            <stats-card :pokemon="pokemon"></stats-card>
-                            <move-card v-bind:moves="moves"></move-card>
                         </div>
                     </div>
                 </div>
@@ -121,4 +137,5 @@
 
 <style scoped lang="scss">
 @import "./styles.scss";
+@import "../../assets/scss/styles.scss";
 </style>

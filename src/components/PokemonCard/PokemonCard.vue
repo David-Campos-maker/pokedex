@@ -5,7 +5,9 @@
         </div>
 
         <div class="pokemon-card__container" v-for="pokemon in filteredList()" :key="pokemon">
-            <info-card :pokemon="pokemon"></info-card>
+            <keep-alive>
+                <info-card :pokemon="pokemon"></info-card>
+            </keep-alive>
         </div>
 
         <div class="pokedex__no-pokemon-found" v-if="input&&!filteredList().length">
@@ -18,7 +20,7 @@
 </template>
 
 <script lang="ts">
-    import { defineComponent  , ref} from "vue";
+    import { defineComponent  , ref , defineAsyncComponent} from "vue";
     import  Pokemon from "../../entities/Pokemon";
     import api from "../../services/api";
     import getEvolutionChain from "../../functions/getEvolutionChain";
@@ -27,10 +29,9 @@
     import getPokemonTypes from "../../functions/getPokemonTypes";
     import getPokemonMoves from "../../functions/getPokemonMoves";
     import getPokemonStats from "../../functions/getPokemonStats";
-    import InfoCard from "../InfoCard/InfoCard.vue";
 
     export default defineComponent({
-    components: { InfoCard },
+    components: { InfoCard: defineAsyncComponent(() => import('../InfoCard/InfoCard.vue')) },
 
         data() {  
             const POKEMON_LIST: Array<Pokemon> = [];
@@ -48,7 +49,7 @@
 
         methods: {
             getPokemons() {
-                api.get('pokemon?limit=151&offset=0').then((response:any) => {
+                api.get('pokemon?limit=809&offset=0').then((response:any) => {
                     response.data.results.forEach((element:any) => {
                         api.get(element.url).then((res:any) => {
                             let id = ("000" + res.data.id).slice(-3) ;

@@ -1,13 +1,15 @@
 <template>
-  <PokemonCard/>
+  <KeepAlive>
+    <PokemonCard/>
+  </KeepAlive>
 </template>
 
 <script lang="ts">
-  import PokemonCard from '../src/components/PokemonCard/PokemonCard.vue';
+  import { defineAsyncComponent } from "vue";
   
   export default {
     components: {
-      PokemonCard,
+      PokemonCard: defineAsyncComponent(() => import('../src/components/PokemonCard/PokemonCard.vue'))
     },
     name: "pokedex-home"
   }
