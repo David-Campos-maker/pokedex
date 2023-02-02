@@ -5,7 +5,7 @@ import IPokemonStats from "../Interfaces/IPokemonStats";
 
 export default class Pokemon {
     abilities: Array<IAbility>;
-    evolutionChain: Array<string>;
+    evolutionChain: string;
     height: number;
     id: string;
     moves: Array<string>;
@@ -15,7 +15,7 @@ export default class Pokemon {
     sprites: IPokemonSprites;
     weight: number;
 
-    constructor(abilities: Array<IAbility> , evolutionChain: Array<string> , height: number ,
+    constructor(abilities: Array<IAbility> , evolutionChain: string , height: number ,
         id: string , name: string , pokemonStats: Array<IPokemonStats> , 
         pokemonTypes: Array<IPokemonType> , moves: Array<string> , sprites: IPokemonSprites , weight: number) {
             this.abilities = abilities;

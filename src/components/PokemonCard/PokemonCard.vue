@@ -23,7 +23,6 @@
     import { defineComponent  , ref , defineAsyncComponent} from "vue";
     import  Pokemon from "../../entities/Pokemon";
     import api from "../../services/api";
-    import getEvolutionChain from "../../functions/getEvolutionChain";
     import getPokemonAbilities from "../../functions/getPokemonAbilities";
     import getPokemonSprites from "../../functions/getPokemonSprites";
     import getPokemonTypes from "../../functions/getPokemonTypes";
@@ -61,7 +60,7 @@
                             let pokemonTypes = getPokemonTypes(res.data.types) ;
                             let pokemonStats = getPokemonStats(res.data.stats) ;
                             let moves = getPokemonMoves(res.data.moves) ;
-                            let evolutionChain = getEvolutionChain(res.data.species.url);
+                            let evolutionChain = res.data.species.url;
 
                             let pokemon = new Pokemon(abilities , evolutionChain , height , id , name , pokemonStats ,
                                 pokemonTypes , moves , sprites , weight);
