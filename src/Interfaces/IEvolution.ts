@@ -5,4 +5,5 @@ export default interface IEvolution {
     name: string;
     sprite: string;
     type: Array<IPokemonType>;
+    next_step: Array<IEvolution>;
 } 

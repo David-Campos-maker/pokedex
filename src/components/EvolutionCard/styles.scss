@@ -1,0 +1,61 @@
+.evolution-card {
+    align-items: center;
+    display: flex;
+    flex: 2 0;
+    justify-content: center;
+
+    &__step {
+        align-items: center;
+        display: flex;
+        justify-content: center;
+        text-align: center;
+
+        &:not(:only-child) {
+            margin: {
+                bottom: 10%;
+                top: 10%; 
+            } 
+        } 
+    }
+
+    &__group > .evolution-card__step {
+        &:nth-child(3) > .evolution-card__arrow {
+            transform: rotate(-10deg); 
+        }
+
+        &:nth-last-child(3) > .evolution-card__arrow {
+            transform: rotate(10deg); 
+        }
+
+        &:nth-child(2) > .evolution-card__arrow {
+            transform: rotate(-25deg); 
+        }
+
+        &:nth-last-child(2) > .evolution-card__arrow {
+            transform: rotate(25deg); 
+        }
+
+        &:first-child > .evolution-card__arrow {
+            transform: rotate(-40deg); 
+        }
+
+        &:last-child > .evolution-card__arrow {
+            transform: rotate(40deg);  
+        }
+
+        &:only-child > .evolution-card__arrow,
+        &:nth-child(2):nth-last-child(2) > .evolution-card__arrow,
+        &:nth-child(3):nth-last-child(3) > .evolution-card__arrow {
+            transform: none; 
+        } 
+    }
+
+    &__arrow {
+        margin-right: 2%;
+        width: 26px; 
+    }
+
+    &__group {
+        margin-left: 10%; 
+    }
+}

@@ -5,13 +5,14 @@
 </template>
 
 <script lang="ts">
-  import { defineAsyncComponent } from "vue";
+  import { defineAsyncComponent } from 'vue';
   
   export default {
+    name: "pokedex-home",
+
     components: {
-      PokemonCard: defineAsyncComponent(() => import('../src/components/PokemonCard/PokemonCard.vue'))
+      PokemonCard: defineAsyncComponent(() => import('./components/PokemonCard/PokemonCard.vue'))
     },
-    name: "pokedex-home"
   }
 </script>
 <style scoped lang="scss">

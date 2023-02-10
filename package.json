@@ -12,8 +12,11 @@
     "bootstrap": "^5.2.3",
     "bootstrap-vue": "^2.23.1",
     "core-js": "^3.8.3",
+    "lazy-load-list": "^1.2.3",
     "vue": "^3.2.45",
     "vue-class-component": "^8.0.0-0",
+    "vue-lazy-load-list": "^1.0.10",
+    "vue-lazyload": "^3.0.0-rc.2",
     "vue-router": "^4.0.3"
   },
   "devDependencies": {

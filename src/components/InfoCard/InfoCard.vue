@@ -16,15 +16,15 @@
             </div>
 
             <div class="info-card__pokemon-types">
-                <span v-bind:class="types.pokemonType" v-for="(types , index) of pokemon?.pokemonTypes" :key="types">
+                <span v-bind:class="types.pokemonType" v-for="(types , index) of pokemon?.pokemonTypes" :key="types.pokemonType">
                     {{ types.pokemonType }}
-                    <span class="before-type" v-if="index != Object.keys(pokemon.pokemonTypes).length - 1"></span>
+                    <span class="before-type" v-if="pokemon && index != Object.keys(pokemon.pokemonTypes).length - 1"></span>
                 </span>
             </div>
 
             <!-- Button trigger modal -->
-            <button @click="toggleModal() , getMoves() , getEvolutions()" type="button" 
-                class="btn info-card__btn-trigger-modal" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            <button @click="modalTrigger()" type="button" 
+                class="btn info-card__btn-trigger-modal">
                 Show Details
             </button>
 
@@ -36,7 +36,7 @@
                             <h1 class="modal-title fs-5 info-card__modal-name" id="exampleModalLabel">
                                 {{ pokemon?.name }}
                             </h1>
-                            <button @click="clearMoves() , clearEvolutions()" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button @click="clearMoves()" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body show-details__container">
                             <div class="pokedex-col">
@@ -51,11 +51,8 @@
                                 <div class="show-details__stat-card">
                                     <stats-card :pokemon="pokemon"></stats-card>
                                 </div>
-                                <div class="pokedex-row">
-                                    <div class="pokedex-col" v-for="evolution in evolutions" :key="evolution">
-                                        <img :src="evolution.sprite" alt="evolution">
-                                        <div>{{ evolution.id }}</div>
-                                    </div>
+                                <div class="show-details__evolution__container">
+                                    <evolution-card v-bind:evolution="evolution"></evolution-card>
                                 </div>
                             </div>
                             <div>
@@ -65,9 +62,9 @@
 
                         <div class="modal-footer">
                             <div class="info-card__pokemon-types">
-                                <span v-bind:class="types.pokemonType" v-for="(types , index) of pokemon?.pokemonTypes" :key="types">
+                                <span v-bind:class="types.pokemonType" v-for="(types , index) of pokemon?.pokemonTypes" :key="types.pokemonType">
                                     {{ types.pokemonType }}
-                                    <span class="before-type" v-if="index != Object.keys(pokemon.pokemonTypes).length - 1"></span>
+                                    <span class="before-type" v-if="pokemon && index != Object.keys(pokemon.pokemonTypes).length - 1"></span>
                                 </span>
                             </div>
                         </div>
@@ -80,17 +77,21 @@
 </template>
 
 <script lang="ts">
-    import {defineComponent} from "vue";
+    import { defineComponent } from "vue";
     import Pokemon from "../../entities/Pokemon";
     import type IMoves from '../../Interfaces/IMoves';
-    import type IEvolution from '../../Interfaces/IEvolution';
     import api from "../../services/api";
     import MoveCard from "../MovesCard/MoveCard.vue";
     import StatsCard from "../StatsCard/StatsCard.vue";
+    import EvolutionCard from "../EvolutionCard/EvolutionCard.vue";
+    // import getEvolutionTree from "../../functions/getEvolutionTree";
+    import getEvolutionChainUrl from "../../functions/getEvolutionChainUrl";
+    import axios from "axios";
+    import type IEvolution from "../../Interfaces/IEvolution";
     import getPokemonTypes from "../../functions/getPokemonTypes";
 
     export default  defineComponent({
-        components: { MoveCard , StatsCard} ,
+        components: { MoveCard , StatsCard , EvolutionCard} ,
 
         name: "info-card" ,
 
@@ -101,17 +102,23 @@
         data() {
             let modalRef: any = null;
             let moves: Array<IMoves> = [];
-            let evolutions: Array<IEvolution> = [];
+            let evolution = {} as IEvolution;
 
             return {
                 modalRef ,
                 moves ,
-                evolutions
+                evolution
             }
         },
 
         mounted() {
             this.$refs["info-modal"];
+        },
+
+        watch: {
+            evolution(_) {
+                console.log(_);
+            }
         },
 
         methods: {
@@ -122,8 +129,8 @@
                 this.modalRef.toggle();
             },
 
-            getMoves() {
-                this.pokemon?.moves.forEach((move: string) => {
+            async getMoves() {
+                this.pokemon!.moves.map((move: string) => {
 
                     api.get(move).then(res => {
                         const object: IMoves = {
@@ -140,60 +147,41 @@
                 })
             },
 
+            getEvolutionTree: async function(evoData: any): Promise<IEvolution> {
+                const evolutionTree: Array<IEvolution> = [];
+                const nextStep = {} as IEvolution;
+
+                if(evoData.evolves_to && evoData.evolves_to.length > 0) {
+                    for(const evolution of evoData.evolves_to) {
+                        evolutionTree.push(await this.getEvolutionTree(evolution));
+                    }
+                }
+                
+                api.get('https://pokeapi.co/api/v2/pokemon/' + `${evoData.species.name}`).then(res => {
+                    nextStep.id = res.data.id;
+                    nextStep.name = res.data.name;
+                    nextStep.sprite = res.data.sprites.front_default;
+                    nextStep.type = getPokemonTypes(res.data.types);
+                    nextStep.next_step = evolutionTree;
+                });
+
+                return nextStep;
+            },
+
+            async getEvolutions() {
+                const res = await axios.get(await getEvolutionChainUrl(this.pokemon!.evolutionChain));
+
+                this.evolution = await this.getEvolutionTree(res.data.chain);
+            },
+
             clearMoves() {
                 this.moves = [];
             },
 
-            getEvolutions() {
-                api.get(this.pokemon!.evolutionChain).then((response) => {
-                    api.get(response.data.evolution_chain.url).then((res) => {
-                        let evoData = res.data.chain;
-                        let count = 0;
-
-                        do {
-                            const numberOfEvolutions = evoData['evolves_to'].length;
-
-                            api.get('https://pokeapi.co/api/v2/pokemon/' + `${evoData.species.name}`).then(res => {
-                                let evolution: IEvolution = {
-                                    id: count,
-                                    name: res.data.name,
-                                    sprite: res.data.sprites.front_default,
-                                    type: getPokemonTypes(res.data.types)
-                                }
-                                this.evolutions.push(evolution);
-                                count += 1
-                            });
-
-                            if(numberOfEvolutions > 1) {
-                                for(let i = 1; i < numberOfEvolutions; i++) {
-                                    api.get('https://pokeapi.co/api/v2/pokemon/' + `${evoData.evolves_to[i].species.name}`).then(res => {
-                                        let evolution: IEvolution = {
-                                            id: count,
-                                            name: res.data.name,
-                                            sprite: res.data.sprites.front_default,
-                                            type: getPokemonTypes(res.data.types)
-                                        }
-                                        this.evolutions.push(evolution);
-                                        count += 1
-                                    });
-                                }
-                            }
-                            
-                            evoData = evoData['evolves_to'][0];
-                        } while(!!evoData && Object.prototype.hasOwnProperty.call(evoData, 'evolves_to'));
-                    });
-                });
-
-                this.evolutions.sort((n1 , n2) => {
-                    if (n1.id > n2.id) return 1;
-                    if (n1.id < n2.id) return -1;
-
-                    return 0;
-                })
-            },
-
-            clearEvolutions() {
-                this.evolutions = [];
+            async modalTrigger() {
+                await this.getMoves();
+                await this.getEvolutions();
+                this.toggleModal();
             }
         }
     })
