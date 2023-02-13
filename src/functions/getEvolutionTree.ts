@@ -16,7 +16,7 @@ export default async function getEvolutionTree(evoData: any): Promise<IEvolution
         nextStep.id = res.data.id;
         nextStep.name = res.data.name;
         nextStep.sprite = res.data.sprites.front_default;
-        nextStep.type = getPokemonTypes(res.data.types);
+        nextStep.types = getPokemonTypes(res.data.types);
         nextStep.next_step = evolutionTree;
     });
 

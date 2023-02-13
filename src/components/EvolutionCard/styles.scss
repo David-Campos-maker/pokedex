@@ -20,27 +20,27 @@
 
     &__group > .evolution-card__step {
         &:nth-child(3) > .evolution-card__arrow {
-            transform: rotate(-10deg); 
+            transform: rotate(-5deg); 
         }
 
         &:nth-last-child(3) > .evolution-card__arrow {
-            transform: rotate(10deg); 
+            transform: rotate(5deg); 
         }
 
         &:nth-child(2) > .evolution-card__arrow {
-            transform: rotate(-25deg); 
+            transform: rotate(-20deg); 
         }
 
         &:nth-last-child(2) > .evolution-card__arrow {
-            transform: rotate(25deg); 
+            transform: rotate(20deg); 
         }
 
         &:first-child > .evolution-card__arrow {
-            transform: rotate(-40deg); 
+            transform: rotate(-35deg); 
         }
 
         &:last-child > .evolution-card__arrow {
-            transform: rotate(40deg);  
+            transform: rotate(35deg);  
         }
 
         &:only-child > .evolution-card__arrow,
@@ -56,10 +56,14 @@
     }
 
     &__group {
-        margin-left: 10%; 
+        margin-left: 3%; 
     }
 
     &__name {
         text-transform: capitalize;
+    }
+
+    &__pokemon {
+        width: 130px;
     }
 }

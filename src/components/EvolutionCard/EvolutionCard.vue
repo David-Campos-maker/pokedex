@@ -1,9 +1,12 @@
 <template>
     <div class="evolution-card">
         <div class="evolution-card__step">
-            <div>
+            <div class="evolution-card__pokemon">
                 <img :src="evolution?.sprite" :alt="evolution?.name">
                 <div class="evolution-card__name">{{ evolution?.name }}</div>
+                <div>
+                    <types-card v-bind:types="evolution?.types"></types-card>
+                </div>
             </div>
             <div class="evolution-card__group">
                 <div class="evolution-card__step" v-for="step of evolution?.next_step" :key="step.id">
@@ -20,8 +23,10 @@
 <script lang="ts">
     import { defineComponent } from 'vue';
     import type IEvolution from '../../Interfaces/IEvolution';
+import TypesCard from '../TypesCard/TypesCard.vue';
 
     export default defineComponent({
+  components: { TypesCard },
         name: "evolution-card" ,
 
         props: {

@@ -15,7 +15,7 @@
                 {{ pokemon?.name }}
             </div>
 
-            <types-card :pokemon="pokemon"></types-card>
+            <types-card v-bind:types="pokemon?.pokemonTypes"></types-card>
 
             <!-- Button trigger modal -->
             <button @click="modalTrigger()" type="button" 
@@ -48,7 +48,7 @@
                                     <stats-card :pokemon="pokemon"></stats-card>
                                 </div>
                                 <div class="show-details__evolution__container" v-if="evolution">
-                                    <evolution-card v-bind:evolution="evolution"></evolution-card>
+                                    <evolution-card :evolution="evolution"></evolution-card>
                                 </div>
                             </div>
                             <div>
@@ -57,7 +57,7 @@
                         </div>
 
                         <div class="modal-footer">
-                            <types-card :pokemon="pokemon"></types-card>
+                            <types-card v-bind:types="pokemon?.pokemonTypes"></types-card>
                         </div>
                     </div>
                 </div>
@@ -68,13 +68,12 @@
 </template>
 
 <script lang="ts">
-    import { defineComponent } from "vue";
+    import { defineComponent , defineAsyncComponent} from "vue";
     import Pokemon from "../../entities/Pokemon";
     import type IMoves from '../../Interfaces/IMoves';
     import api from "../../services/api";
     import MoveCard from "../MovesCard/MoveCard.vue";
     import StatsCard from "../StatsCard/StatsCard.vue";
-    import EvolutionCard from "../EvolutionCard/EvolutionCard.vue";
     import TypesCard from "../TypesCard/TypesCard.vue";
     // import getEvolutionTree from "../../functions/getEvolutionTree";
     import getEvolutionChainUrl from "../../functions/getEvolutionChainUrl";
@@ -83,7 +82,12 @@
     import getPokemonTypes from "../../functions/getPokemonTypes";
 
     export default  defineComponent({
-        components: { MoveCard , StatsCard , EvolutionCard , TypesCard} ,
+        components: { 
+            MoveCard , 
+            StatsCard , 
+            EvolutionCard:defineAsyncComponent(() => import("../EvolutionCard/EvolutionCard.vue")) , 
+            TypesCard
+        } ,
 
         name: "info-card" ,
 
@@ -152,7 +156,7 @@
                     nextStep.id = res.data.id;
                     nextStep.name = res.data.name;
                     nextStep.sprite = res.data.sprites.front_default;
-                    nextStep.type = getPokemonTypes(res.data.types);
+                    nextStep.types = getPokemonTypes(res.data.types);
                     nextStep.next_step = evolutionTree;
                 });
 
