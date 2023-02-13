@@ -16,7 +16,7 @@
                 </div>
             </div>
         </div>
-        <div class="moves-card__content" v-for="move in moves" :key="move">
+        <div class="move-card__content" v-for="move in moves" :key="move.name">
             <div class="move-card__move">
                 <div class="move-card__move-name">
                     {{ move.name }}

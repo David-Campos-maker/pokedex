@@ -1,6 +1,6 @@
 <template>
     <div class="content pokedex__main-container">
-        <div class="form-outline pokedexe__search-bar">
+        <div class="form-outline pokedex__search-bar">
             <input v-model="input" type="search" 
                     class="form-control rounded pokedex__serach-pokemon" 
                     placeholder="Search for a Pokémon" 
@@ -9,8 +9,10 @@
             />
         </div>
 
-        <div class="pokemon-card__container" v-for="pokemon of pokedex" :key="pokemon.id">
-            <info-card :pokemon="pokemon"></info-card>
+        <div class="pokemon-card__container" v-for="pokemon of filteredList()" :key="pokemon.id">
+            <keep-alive>
+                <info-card :pokemon="pokemon"></info-card>
+            </keep-alive>
         </div>
 
         <div class="pokedex__no-pokemon-found" v-if="input&&!filteredList().length">

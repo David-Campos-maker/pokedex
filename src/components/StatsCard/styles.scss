@@ -1,59 +1,61 @@
-.stats-card__stat {
-    text-transform: capitalize;
-    margin: 2px;
-    padding: 4px;
-}
+.stats-card {
+    &__stat {
+        text-transform: capitalize;
+        margin: 2px;
+        padding: 4px;
+    }
+    
+    &__base-stat {
+        text-transform: capitalize;
+        margin: 3px;
+        margin-right: 2px;
+        padding: 4px;
+    }
 
-.stats-card__base-stat {
-    text-transform: capitalize;
-    margin: 3px;
-    margin-right: 2px;
-    padding: 4px;
-}
-
-.stats-card__stat-info {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-end;
-}
-
-.stat-card__quality-bar__container {
-    padding: 2px;
+    &__stat-info {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-end;
+    }
 }
 
 .stas-card__quality-bar {
     background-color: #dfdfdf;
     width: 275px;
     border-radius: 3PX;
-}
 
-.stas-card__quality-bar__very-low {
-    border-radius: 3px;
-    height: 8px;
-    background-color: #FD3917;
-}
+    &__container {
+        padding: 2px;
+    }
 
-.stas-card__quality-bar__low {
-    border-radius: 3px;
-    height: 8px;
-    background-color: #FFA825;
-}
+    &__very-low {
+        border-radius: 3px;
+        height: 8px;
+        background-color: #FD3917;
+    }
 
-.stas-card__quality-bar__normal {
-    border-radius: 3px;
-    height: 8px;
-    background-color: #F8D228;
-}
+    &__low {
+        border-radius: 3px;
+        height: 8px;
+        background-color: #FDA116;
+    }
 
-.stas-card__quality-bar__great {
-    border-radius: 3px;
-    height: 8px;
-    background-color: #38D345;
-}
+    &__normal {
+        border-radius: 3px;
+        height: 8px;
+        background-color: #F0C818;
+    }
 
-.stas-card__quality-bar__excellent {
-    border-radius: 3px;
-    height: 8px;
-    background-color: #42ADF5;
+    &__great {
+        border-radius: 3px;
+        height: 8px;
+        background-color: #1ECF2D;
+    }
+
+    &__excellent {
+        border-radius: 3px;
+        height: 8px;
+        background-color: #289CE9;
+    }
 }

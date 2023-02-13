@@ -3,7 +3,7 @@
         <div class="evolution-card__step">
             <div>
                 <img :src="evolution?.sprite" :alt="evolution?.name">
-                <div>{{ evolution?.name }}</div>
+                <div class="evolution-card__name">{{ evolution?.name }}</div>
             </div>
             <div class="evolution-card__group">
                 <div class="evolution-card__step" v-for="step of evolution?.next_step" :key="step.id">

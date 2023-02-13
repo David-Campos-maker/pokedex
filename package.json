@@ -17,6 +17,7 @@
     "vue-class-component": "^8.0.0-0",
     "vue-lazy-load-list": "^1.0.10",
     "vue-lazyload": "^3.0.0-rc.2",
+    "vue-property-decorator": "^9.1.2",
     "vue-router": "^4.0.3"
   },
   "devDependencies": {

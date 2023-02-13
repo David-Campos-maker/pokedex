@@ -15,20 +15,16 @@
                 {{ pokemon?.name }}
             </div>
 
-            <div class="info-card__pokemon-types">
-                <span v-bind:class="types.pokemonType" v-for="(types , index) of pokemon?.pokemonTypes" :key="types.pokemonType">
-                    {{ types.pokemonType }}
-                    <span class="before-type" v-if="pokemon && index != Object.keys(pokemon.pokemonTypes).length - 1"></span>
-                </span>
-            </div>
+            <types-card :pokemon="pokemon"></types-card>
 
             <!-- Button trigger modal -->
             <button @click="modalTrigger()" type="button" 
-                class="btn info-card__btn-trigger-modal">
+                class="btn info-card__btn-modal-trigger">
                 Show Details
             </button>
 
             <!-- Modal -->
+
             <div class="modal fade" ref="info-modal" tabindex="-1" aria-labelledby="" aria-hidden="true">
                 <div class="modal-dialog modal-xl">
                     <div class="modal-content">
@@ -51,7 +47,7 @@
                                 <div class="show-details__stat-card">
                                     <stats-card :pokemon="pokemon"></stats-card>
                                 </div>
-                                <div class="show-details__evolution__container">
+                                <div class="show-details__evolution__container" v-if="evolution">
                                     <evolution-card v-bind:evolution="evolution"></evolution-card>
                                 </div>
                             </div>
@@ -61,12 +57,7 @@
                         </div>
 
                         <div class="modal-footer">
-                            <div class="info-card__pokemon-types">
-                                <span v-bind:class="types.pokemonType" v-for="(types , index) of pokemon?.pokemonTypes" :key="types.pokemonType">
-                                    {{ types.pokemonType }}
-                                    <span class="before-type" v-if="pokemon && index != Object.keys(pokemon.pokemonTypes).length - 1"></span>
-                                </span>
-                            </div>
+                            <types-card :pokemon="pokemon"></types-card>
                         </div>
                     </div>
                 </div>
@@ -84,6 +75,7 @@
     import MoveCard from "../MovesCard/MoveCard.vue";
     import StatsCard from "../StatsCard/StatsCard.vue";
     import EvolutionCard from "../EvolutionCard/EvolutionCard.vue";
+    import TypesCard from "../TypesCard/TypesCard.vue";
     // import getEvolutionTree from "../../functions/getEvolutionTree";
     import getEvolutionChainUrl from "../../functions/getEvolutionChainUrl";
     import axios from "axios";
@@ -91,7 +83,7 @@
     import getPokemonTypes from "../../functions/getPokemonTypes";
 
     export default  defineComponent({
-        components: { MoveCard , StatsCard , EvolutionCard} ,
+        components: { MoveCard , StatsCard , EvolutionCard , TypesCard} ,
 
         name: "info-card" ,
 
@@ -102,12 +94,11 @@
         data() {
             let modalRef: any = null;
             let moves: Array<IMoves> = [];
-            let evolution = {} as IEvolution;
 
             return {
                 modalRef ,
                 moves ,
-                evolution
+                evolution: {} as IEvolution ,
             }
         },
 
