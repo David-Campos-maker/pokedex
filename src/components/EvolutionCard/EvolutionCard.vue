@@ -22,8 +22,7 @@
 
 <script lang="ts">
     import { defineComponent } from 'vue';
-    import type IEvolution from '../../Interfaces/IEvolution';
-import TypesCard from '../TypesCard/TypesCard.vue';
+    import TypesCard from '../TypesCard/TypesCard.vue';
 
     export default defineComponent({
   components: { TypesCard },
@@ -31,7 +30,7 @@ import TypesCard from '../TypesCard/TypesCard.vue';
 
         props: {
             evolution: {
-                type: Object as () => IEvolution
+                type: Object
             }
         },
     });

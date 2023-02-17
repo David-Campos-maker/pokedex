@@ -12,13 +12,12 @@ export default async function getEvolutionTree(evoData: any): Promise<IEvolution
         }
     }
     
-    api.get('https://pokeapi.co/api/v2/pokemon/' + `${evoData.species.name}`).then(res => {
-        nextStep.id = res.data.id;
-        nextStep.name = res.data.name;
-        nextStep.sprite = res.data.sprites.front_default;
-        nextStep.types = getPokemonTypes(res.data.types);
-        nextStep.next_step = evolutionTree;
-    });
+    const res = await api.get('https://pokeapi.co/api/v2/pokemon/' + `${evoData.species.name}`);
+    nextStep.id = res.data.id;
+    nextStep.name = res.data.name;
+    nextStep.sprite = res.data.sprites.front_default;
+    nextStep.types = getPokemonTypes(res.data.types);
+    nextStep.next_step = evolutionTree;
 
     return nextStep;
 }
