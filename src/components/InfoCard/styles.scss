@@ -98,6 +98,10 @@
         }
     }
 
+    &__modal {
+        --bs-modal-width: 1250px;
+    }
+
     &__modal-name {
         text-transform: capitalize;
         margin-right: 3%;
@@ -116,9 +120,23 @@
         flex-direction: row;
         flex-wrap: wrap;
         align-content: center;
-        justify-content: space-between;
         align-items: flex-start;
         background-color: #F3F3F3;
+    }
+
+    &__general-info {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        align-content: center;
+        width: 1060px;
+        margin: {
+            left: 5%;
+            right: 5%;
+            top: 2%;
+        };
     }
 
     &__stat-card {
@@ -159,7 +177,12 @@
     }
 
     &__evolution__container {
-        margin-top: 12%;
-        margin-left: 10%;
+        margin: {
+            top: 8%;
+            left: 12%;
+            right: 12%;
+            bottom: 2%;
+        };
+        width: 800px;
     }
 }

@@ -26,7 +26,7 @@
             <!-- Modal -->
 
             <div class="modal fade" ref="info-modal" tabindex="-1" aria-labelledby="" aria-hidden="true">
-                <div class="modal-dialog modal-xl">
+                <div class="modal-dialog info-card__modal">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h1 class="modal-title fs-5 info-card__modal-name" id="exampleModalLabel">
@@ -35,24 +35,26 @@
                             <button @click="clearMoves()" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body show-details__container">
-                            <div class="pokedex-col">
-                                <div class="show-details__pokemon-sprite">
-                                    <div class="show-details__sprite-default">
-                                        <img class="show-details__pokemon-sprite__img" :src="pokemon?.sprites.default" alt="sprite">
+                            <div class="show-details__general-info">
+                                <div class="pokedex-col">
+                                    <div class="show-details__pokemon-sprite">
+                                        <div class="show-details__sprite-default">
+                                            <img class="show-details__pokemon-sprite__img" :src="pokemon?.sprites.default" alt="sprite">
+                                        </div>
+                                        <div class="show-details__sprite-shiny">
+                                            <img class="show-details__pokemon-sprite__img" :src="pokemon?.sprites.shiny" alt="sprite">
+                                        </div>
                                     </div>
-                                    <div class="show-details__sprite-shiny">
-                                        <img class="show-details__pokemon-sprite__img" :src="pokemon?.sprites.shiny" alt="sprite">
+                                    <div class="show-details__stat-card">
+                                        <stats-card v-bind:pokemonStats="pokemon?.pokemonStats"></stats-card>
                                     </div>
                                 </div>
-                                <div class="show-details__stat-card">
-                                    <stats-card v-bind:pokemonStats="pokemon?.pokemonStats"></stats-card>
-                                </div>
-                                <div class="show-details__evolution__container">
-                                    <evolution-card v-bind:evolution="evolution"></evolution-card>
+                                <div>
+                                    <move-card v-bind:moves="moves"></move-card>
                                 </div>
                             </div>
-                            <div>
-                                <move-card v-bind:moves="moves"></move-card>
+                            <div class="show-details__evolution__container">
+                                <evolution-card v-bind:evolution="evolution"></evolution-card>
                             </div>
                         </div>
 

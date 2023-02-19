@@ -51,19 +51,40 @@
     }
 
     &__arrow {
-        margin-right: 2%;
+        margin-right: 4%;
         width: 26px; 
     }
 
     &__group {
-        margin-left: 3%; 
+        margin-left: 2%;
+    }
+
+    &__evolution-header {
+        position: relative;
     }
 
     &__name {
+        font-weight: bold;
         text-transform: capitalize;
+        padding: 4px;
+        margin-top: -5%;
+    }
+
+    &__id {
+        font-weight: bold;
+        padding: 3px;
+        margin: {
+            top: 2%;
+            bottom: 2%;
+        };
     }
 
     &__pokemon {
-        width: 135px;;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        padding: 6px;
+        width: 165px;
     }
 }

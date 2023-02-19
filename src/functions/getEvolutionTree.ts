@@ -13,7 +13,7 @@ export default async function getEvolutionTree(evoData: any): Promise<IEvolution
     }
     
     const res = await api.get('https://pokeapi.co/api/v2/pokemon/' + `${evoData.species.name}`);
-    nextStep.id = res.data.id;
+    nextStep.id = ("000" + res.data.id).slice(-3);
     nextStep.name = res.data.name;
     nextStep.sprite = res.data.sprites.front_default;
     nextStep.types = getPokemonTypes(res.data.types);

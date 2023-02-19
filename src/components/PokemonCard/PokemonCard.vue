@@ -9,13 +9,13 @@
             />
         </div>
 
-        <div class="pokemon-card__container" v-for="pokemon of filteredList()" :key="pokemon.id">
+        <div class="pokemon-card__container" v-for="pokemon in filteredPokedex" :key="pokemon.id">
             <keep-alive>
                 <info-card :pokemon="pokemon"></info-card>
             </keep-alive>
         </div>
 
-        <div class="pokedex__no-pokemon-found" v-if="input&&!filteredList().length">
+        <div class="pokedex__no-pokemon-found" v-if="input&&!filteredPokedex.length">
             <p>No Pokémon found...</p>
             <div class="pokedex__error-code">
                 4 <img class="pokedex__logo" src="../../assets/logo.png" alt="logo"> 4
@@ -25,63 +25,35 @@
 </template>
 
 <script lang="ts">
-    import { defineComponent  , ref , defineAsyncComponent} from "vue";
-    // import LazyList from 'lazy-load-list/vue';
-    import  Pokemon from "../../entities/Pokemon";
-    import api from "../../services/api";
-    import getMovesUrl from "../../functions/getMovesUrl";
-    import getPokemonAbilities from "../../functions/getPokemonAbilities";
-    import getPokemonSprites from "../../functions/getPokemonSprites";
-    import getPokemonStats from "../../functions/getPokemonStats";
-    import getPokemonTypes from "../../functions/getPokemonTypes";
+    import pokedex from '../../entities/pokedex';
+    import Pokemon from '../../entities/Pokemon';
+    import { defineComponent, defineAsyncComponent } from 'vue';
+
+    interface ComponentData {
+        input: string;
+    }
 
     export default defineComponent({
-        components: { InfoCard: defineAsyncComponent(() => import('../InfoCard/InfoCard.vue')) },
+        components: {
+            InfoCard: defineAsyncComponent(() => import('../InfoCard/InfoCard.vue')),
+        },
 
-        data() {  
-            const pokedex: Array<Pokemon> = [];
-            let input = ref("");
-    
+        data(): ComponentData {
             return {
-                pokedex ,
-                input
+                input: '',
             };
         },
-        
-        async created() {
-            this.createPokedex();
+
+        created() {
+            pokedex.fetchPokedex();
         },
 
-        methods: {
-            async createPokedex() {
-                api.get('pokemon?limit=151&offset=0').then((response:any) => {
-                    response.data.results.map((element:any) => {
-                        api.get(element.url).then((res:any) => {
-                            const id = ("000" + res.data.id).slice(-3) ;
-                            const name = res.data.name;
-                            const height = res.data.height;
-                            const weight = res.data.weight;
-                            const sprites = getPokemonSprites(res.data.sprites) ; 
-                            const abilities = getPokemonAbilities(res.data.abilities) ;
-                            const pokemonTypes = getPokemonTypes(res.data.types) ;
-                            const pokemonStats = getPokemonStats(res.data.stats) ;
-                            const moves = getMovesUrl(res.data.moves) ;
-                            const evolutionChain = res.data.species.url;
-
-                            const pokemon = new Pokemon(abilities , evolutionChain , height , id , name , pokemonStats ,
-                                pokemonTypes , moves , sprites , weight);
-
-                            this.pokedex.push(pokemon);
-                        });
-                    });
-                });
-            },
-
-            filteredList() {
-                return this.pokedex.filter((pokemon: { name: string; }) =>
+        computed: {
+            filteredPokedex(): Pokemon[] {
+                return pokedex.state.pokedex.filter((pokemon: Pokemon) =>
                     pokemon.name.toLowerCase().includes(this.input.toLowerCase())
                 );
-            }
+            },
         },
     });
 </script>

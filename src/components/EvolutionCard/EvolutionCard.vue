@@ -2,7 +2,12 @@
     <div class="evolution-card">
         <div class="evolution-card__step">
             <div class="evolution-card__pokemon">
-                <img :src="evolution?.sprite" :alt="evolution?.name">
+                <div class="evolution-card__evolution-header">
+                    <div>
+                        <img :src="evolution?.sprite" :alt="evolution?.name">
+                    </div>
+                    <div class="evolution-card__id">#{{ evolution?.id }}</div>
+                </div>
                 <div class="evolution-card__name">{{ evolution?.name }}</div>
                 <div>
                     <types-card v-bind:types="evolution?.types"></types-card>
