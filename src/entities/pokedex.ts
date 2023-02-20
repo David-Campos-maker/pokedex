@@ -11,11 +11,11 @@ import getPokemonTypes from '../functions/getPokemonTypes';
 import getMovesUrl from '../functions/getMovesUrl';
 import getPokemonSprites from '../functions/getPokemonSprites';
 
-interface State {
+interface PokedexState {
   pokedex: Pokemon[];
 }
 
-const state = reactive<State>({
+const pokedexState = reactive<PokedexState>({
   pokedex: [],
 });
 
@@ -41,10 +41,10 @@ async function fetchPokedex() {
     pokedex.push(pokemon);
   }
 
-  state.pokedex = pokedex;
+  pokedexState.pokedex = pokedex;
 }
 
 export default {
-  state,
+  pokedexState,
   fetchPokedex,
 };

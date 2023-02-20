@@ -50,7 +50,7 @@
 
         computed: {
             filteredPokedex(): Pokemon[] {
-                return pokedex.state.pokedex.filter((pokemon: Pokemon) =>
+                return pokedex.pokedexState.pokedex.filter((pokemon: Pokemon) =>
                     pokemon.name.toLowerCase().includes(this.input.toLowerCase())
                 );
             },
