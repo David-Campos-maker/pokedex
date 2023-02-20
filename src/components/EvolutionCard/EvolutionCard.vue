@@ -10,7 +10,7 @@
                 </div>
                 <div class="evolution-card__name">{{ evolution?.name }}</div>
                 <div>
-                    <types-card v-bind:types="evolution?.types"></types-card>
+                    <types-card v-if="evolution?.types" :types="evolution.types"></types-card>
                 </div>
             </div>
             <div class="evolution-card__group">

@@ -15,7 +15,7 @@
                 {{ pokemon?.name }}
             </div>
 
-            <types-card v-bind:types="pokemon?.pokemonTypes"></types-card>
+            <types-card v-if="pokemon?.pokemonTypes" :types="pokemon.pokemonTypes"></types-card>
 
             <!-- Button trigger modal -->
             <button @click="modalTrigger()" type="button" 
@@ -26,7 +26,7 @@
             <!-- Modal -->
 
             <div class="modal fade" ref="info-modal" tabindex="-1" aria-labelledby="" aria-hidden="true">
-                <div class="modal-dialog info-card__modal">
+                <div class="modal-dialog modal-xl">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h1 class="modal-title fs-5 info-card__modal-name" id="exampleModalLabel">
@@ -36,30 +36,33 @@
                         </div>
                         <div class="modal-body show-details__container">
                             <div class="show-details__general-info">
-                                <div class="pokedex-col">
+                                <div class="show-detais__pokemon-form">
                                     <div class="show-details__pokemon-sprite">
-                                        <div class="show-details__sprite-default">
+                                        <div class="show-details__sprite">
                                             <img class="show-details__pokemon-sprite__img" :src="pokemon?.sprites.default" alt="sprite">
                                         </div>
                                         <div class="show-details__sprite-shiny">
                                             <img class="show-details__pokemon-sprite__img" :src="pokemon?.sprites.shiny" alt="sprite">
                                         </div>
                                     </div>
+                                    <div class="show-details__pokemon-entries">
+                                        {{ entries }}
+                                    </div>
                                     <div class="show-details__stat-card">
                                         <stats-card v-bind:pokemonStats="pokemon?.pokemonStats"></stats-card>
                                     </div>
                                 </div>
                                 <div>
-                                    <move-card v-bind:moves="moves"></move-card>
+                                    <move-card v-if="moves.length > 0" :moves="moves"></move-card>
                                 </div>
                             </div>
                             <div class="show-details__evolution__container">
-                                <evolution-card v-bind:evolution="evolution"></evolution-card>
+                                <evolution-card v-if="evolution" :evolution="evolution"></evolution-card>
                             </div>
                         </div>
 
                         <div class="modal-footer">
-                            <types-card v-bind:types="pokemon?.pokemonTypes"></types-card>
+                            <types-card v-if="pokemon?.pokemonTypes" :types="pokemon.pokemonTypes"></types-card>
                         </div>
                     </div>
                 </div>
@@ -100,11 +103,14 @@
         data() {
             let modalRef: any = null;
             let moves: Array<IMoves> = [];
+            let evolution = {} as IEvolution;
+            let entries = '';
 
             return {
                 modalRef ,
                 moves ,
-                evolution: {} as IEvolution ,
+                evolution ,
+                entries
             }
         },
 
@@ -120,26 +126,35 @@
                 this.modalRef.toggle();
             },
 
-            async getMoves() {
-                this.pokemon!.moves.map((move: string) => {
+            async getEntriesText() {
+                const response = await api.get(this.pokemon!.speciesUrl);
 
-                    api.get(move).then(res => {
-                        const object: IMoves = {
-                            name: res.data.name.replace(/-/g , " ") ,
-                            accuracy: res.data.accuracy ,
-                            damage_class: res.data.damage_class.name ,
-                            power: res.data.power ,
-                            pp: res.data.pp ,
-                            type: res.data.type.name
-                        }
-                        
-                        this.moves.push(object);
-                    });
-                })
+                for(const element of response.data.flavor_text_entries) {
+                    if (element.language.name == 'en') {
+                        this.entries = element.flavor_text;
+                        break;
+                    }
+                }
+            },
+
+            async getMoves() {
+                const moves = await Promise.all(this.pokemon!.moves.map(async (move: string) => {
+                    const res = await api.get(move);
+
+                    return {
+                        name: res.data.name.replace(/-/g , " "),
+                        accuracy: res.data.accuracy,
+                        damage_class: res.data.damage_class.name,
+                        power: res.data.power,
+                        pp: res.data.pp,
+                        type: res.data.type.name
+                    };
+                }));
+                this.moves = moves;
             },
 
             async getEvolutions() {
-                const res = await axios.get(await getEvolutionChainUrl(this.pokemon!.evolutionChain));
+                const res = await axios.get(await getEvolutionChainUrl(this.pokemon!.speciesUrl));
                 this.evolution = await getEvolutionTree(res.data.chain);
             },
 
@@ -148,6 +163,7 @@
             },
 
             async modalTrigger() {
+                await this.getEntriesText();
                 await this.getEvolutions();
                 await this.getMoves();
                 this.toggleModal();

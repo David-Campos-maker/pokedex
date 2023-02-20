@@ -12,7 +12,7 @@ import getMovesUrl from '../functions/getMovesUrl';
 import getPokemonSprites from '../functions/getPokemonSprites';
 
 interface PokedexState {
-  pokedex: Pokemon[];
+  pokedex: Array<Pokemon>;
 }
 
 const pokedexState = reactive<PokedexState>({
@@ -21,7 +21,7 @@ const pokedexState = reactive<PokedexState>({
 
 async function fetchPokedex() {
   const response = await api.get('pokemon?limit=807&offset=0');
-  const pokedex: Pokemon[] = [];
+  const pokedex: Array<Pokemon> = [];
 
   for (const result of response.data.results) {
     const res = await api.get(result.url);

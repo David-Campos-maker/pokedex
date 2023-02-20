@@ -98,10 +98,6 @@
         }
     }
 
-    &__modal {
-        --bs-modal-width: 1250px;
-    }
-
     &__modal-name {
         text-transform: capitalize;
         margin-right: 3%;
@@ -116,11 +112,6 @@
 
 .show-details {
     &__container {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        align-content: center;
-        align-items: flex-start;
         background-color: #F3F3F3;
     }
 
@@ -133,24 +124,36 @@
         align-content: center;
         width: 1060px;
         margin: {
-            left: 5%;
-            right: 5%;
+            left: 3%;
+            right: 3%;
             top: 2%;
         };
     }
 
+    &__pokemon-form {
+        display: flex;
+        flex-direction: column;
+        align-content: center;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
     &__stat-card {
-        margin-top: 20%;
+        background-color: #FFF;
+        padding: 16px;
+        border-radius: 15px;
+        margin-top: 16%;
     }
 
     &__pokemon-sprite {
         display: flex;
-        justify-content: space-between;
-        margin-left: 20%;
+        justify-content: center;
+        margin-left: -1%;
         margin-top: 5%;
+        align-items: center;
     }
 
-    &__sprite-default {
+    &__sprite {
         display: flex;
         flex-wrap: wrap;
         align-items: center;
@@ -161,28 +164,42 @@
         margin-right: 20%;
         background-color: #FFF;
         border-radius: 15px;
+
+        &-shiny {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            align-content: center;
+            width: 150px;
+            height: 120px;
+            background-color: #FFF;
+            border-radius: 15px;
+            border: 2px solid #E73434;
+        }
     }
 
-    &__sprite-shiny {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        justify-content: center;
-        align-content: center;
-        width: 150px;
-        height: 120px;
+    &__pokemon-entries {
+        width: 372px;
+        margin: {
+            top: 6%;
+            left: 10%;
+            bottom: -6%;
+        };
         background-color: #FFF;
+        padding: 11px;
         border-radius: 15px;
-        border: 2px solid #E73434;
     }
 
     &__evolution__container {
+        padding: 12px;
         margin: {
-            top: 8%;
-            left: 12%;
-            right: 12%;
+            top: 6%;
+            left: 24%;
+            right: 24%;
             bottom: 2%;
         };
-        width: 800px;
+        background-color: #FFF;
+        border-radius: 15px;
     }
 }
