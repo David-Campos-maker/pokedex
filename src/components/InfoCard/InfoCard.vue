@@ -24,7 +24,6 @@
             </button>
 
             <!-- Modal -->
-
             <div class="modal fade" ref="info-modal" tabindex="-1" aria-labelledby="" aria-hidden="true">
                 <div class="modal-dialog modal-xl">
                     <div class="modal-content">
@@ -83,7 +82,6 @@
     import EvolutionCard from "../EvolutionCard/EvolutionCard.vue";
     import getEvolutionTree from "../../functions/getEvolutionTree";
     import getEvolutionChainUrl from "../../functions/getEvolutionChainUrl";
-    import axios from "axios";
     import type IEvolution from "../../Interfaces/IEvolution";
 
     export default  defineComponent({
@@ -154,7 +152,7 @@
             },
 
             async getEvolutions() {
-                const res = await axios.get(await getEvolutionChainUrl(this.pokemon!.speciesUrl));
+                const res = await api.get(await getEvolutionChainUrl(this.pokemon!.speciesUrl));
                 this.evolution = await getEvolutionTree(res.data.chain);
             },
 

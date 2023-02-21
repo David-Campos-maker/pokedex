@@ -22,10 +22,15 @@ const pokedexState = reactive<PokedexState>({
 async function fetchPokedex() {
   const response = await api.get('pokemon?limit=807&offset=0');
   const pokedex: Array<Pokemon> = [];
+  const promises: Promise<any>[] = [];
 
   for (const result of response.data.results) {
-    const res = await api.get(result.url);
+    promises.push(api.get(result.url));
+  }
 
+  const responses = await Promise.all(promises);
+
+  for (const res of responses) {
     const pokemon = new Pokemon(
       getPokemonAbilities(res.data.abilities),
       res.data.species.url,
