@@ -121,6 +121,7 @@
             align-items: center;
             align-content: center;
             flex-wrap: wrap;
+            justify-content: center;
         }
     }
 
@@ -194,16 +195,20 @@
         margin-top: 10%;
 
         @media only screen and (max-width: 1200px) {
+            display: flex;
             margin-top: 5%;
-            margin-left: 28%;
-            width: 44%;
+            margin-left: 26%;
+            width: 47%;
+            justify-content: center;
             padding: 1%;
         }
 
         @media only screen and (max-width: 320px) {
+            display: flex;
             margin-top: 5%;
-            margin-left: 29%;
-            width: 42%;
+            margin-left: 27%;
+            width: 47%;
+            justify-content: center;
             padding: 1%;
         }
     }
