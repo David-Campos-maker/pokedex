@@ -37,8 +37,9 @@
     import { defineComponent, defineAsyncComponent } from 'vue';
 
     interface ComponentData {
-    input: string;
-    limit: number;
+        input: string;
+        limit: number;
+        loadingMore: boolean;
     }
 
     export default defineComponent({
@@ -46,7 +47,7 @@
             InfoCard: defineAsyncComponent(() => import('../InfoCard/InfoCard.vue')),
         },
 
-        data() {
+        data(): ComponentData {
             return {
                 input: '',
                 limit: 60,
@@ -83,9 +84,10 @@
         },
 
         computed: {
-            filteredPokedex() {
-                return pokedex.pokedexState.pokedex.filter((pokemon) =>
-                    pokemon.name.toLowerCase().includes(this.input.toLowerCase())
+            filteredPokedex(): Pokemon[] {
+                const input = this.input;
+                return pokedex.pokedexState.pokedex.filter((pokemon: Pokemon) =>
+                    pokemon.name.toLowerCase().includes(input.toLowerCase())
                 );
             },
         },
@@ -99,6 +101,8 @@
         },
     });
 </script>
+
+
 
 <style scoped lang="scss">
     @import './styles.scss';
