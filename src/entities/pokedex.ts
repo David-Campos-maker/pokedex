@@ -19,8 +19,8 @@ const pokedexState = reactive<PokedexState>({
   pokedex: [],
 });
 
-async function fetchPokedex() {
-  const response = await api.get('pokemon?limit=807&offset=0');
+async function fetchPokedex(limit: number) {
+  const response = await api.get(`pokemon?limit=${limit}&offset=0`);
   const pokedex: Array<Pokemon> = [];
   const promises: Promise<any>[] = [];
 

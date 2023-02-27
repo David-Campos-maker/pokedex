@@ -6,6 +6,14 @@
                     #{{ pokemon?.id }}
                 </div>
 
+                <div class="info-card__pokemon-weigth">
+                    {{ pokemon?.weight }}Kg
+                </div>
+
+                <div class="info-card__pokemon-height">
+                    {{ pokemon?.height }}m
+                </div>
+
                 <div class="info-card__pokemon-sprite">
                     <img class="info-card__pokemon-sprite__img" :src="pokemon?.sprites.default" alt="sprite">
                 </div>
@@ -46,12 +54,22 @@
                                     </div>
                                     <div class="show-details__pokemon-entries">
                                         {{ entries }}
+                                    </div> 
+                                    <div class="show-details__pokemon-abilities">
+                                        <div v-for="ability of pokemon?.abilities" :key="ability.ability">
+                                            <div class="info-card__pokemon-abilities__hidden" v-if="ability.is_hidden">
+                                                {{ ability.ability }}
+                                            </div>
+                                            <div class="info-card__pokemon-abilities" v-else> 
+                                                {{ ability.ability }}
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="show-details__stat-card">
                                         <stats-card v-bind:pokemonStats="pokemon?.pokemonStats"></stats-card>
                                     </div>
                                 </div>
-                                <div>
+                                <div class="show-details__move-container">
                                     <move-card v-if="moves.length > 0" :moves="moves"></move-card>
                                 </div>
                             </div>

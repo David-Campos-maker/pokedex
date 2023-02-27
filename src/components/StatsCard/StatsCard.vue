@@ -1,6 +1,6 @@
 <template>
-    <div class="stats-card__container pokedex-col">
-        <div class="stats-card__stat-info pokedex-row" v-for="stat of pokemonStats" :key="stat.stat">
+    <div class="stats-card__container">
+        <div class="stats-card__stat-info" v-for="stat of pokemonStats" :key="stat.stat">
             <p class="stats-card__stat">{{ stat.stat }}</p>
             <p class="stats-card__base-stat">{{ stat.baseStat}}</p>
             <div class="stas-card__quality-bar">

@@ -3,6 +3,11 @@
         text-transform: capitalize;
         margin: 2px;
         padding: 4px;
+
+        @media only screen and (max-width: 1025px) {
+            margin: -1px;
+            padding: -2px;
+        }
     }
     
     &__base-stat {
@@ -17,6 +22,31 @@
         flex-direction: row;
         align-items: center;
         justify-content: flex-end;
+
+        @media only screen and (max-width: 1025px) {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: space-evenly;
+            flex-wrap: wrap;
+            align-content: center;
+            margin-bottom: 5%;
+        }
+    }
+
+    &__container {
+        display: flex;
+        flex-direction: column;
+
+        @media only screen and (max-width: 1025px) {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: space-evenly;
+            flex-wrap: wrap;
+            align-content: center;
+            margin-bottom: 5%;
+        }
     }
 }
 
@@ -57,5 +87,11 @@
         border-radius: 3px;
         height: 8px;
         background-color: #289CE9;
+    }
+
+    @media only screen and (max-width: 768px) {
+        &__quality-bar {
+            width: 100%;
+        }
     }
 }
