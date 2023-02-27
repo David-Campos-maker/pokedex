@@ -37,9 +37,10 @@
     import { defineComponent, defineAsyncComponent } from 'vue';
 
     interface ComponentData {
-        input: string;
-        limit: number;
-        loadingMore: boolean;
+    input: string;
+    limit: number;
+    loadingMore: boolean;
+    isMobile: boolean;
     }
 
     export default defineComponent({
@@ -52,25 +53,35 @@
                 input: '',
                 limit: 60,
                 loadingMore: false,
+                isMobile: false,
             };
         },
 
         created() {
+            this.isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
             pokedex.fetchPokedex(this.limit);
-            window.addEventListener('scroll', this.loadMore);
-            window.addEventListener('touchmove', this.loadMore);
+
+            if (this.isMobile) {
+                window.addEventListener('scroll', this.loadMore);
+                window.addEventListener('touchmove', this.loadMore);
+            } else {
+                window.addEventListener('scroll', this.loadMore);
+            }
         },
 
         beforeUnmount() {
-            window.removeEventListener('scroll', this.loadMore);
-            window.removeEventListener('touchmove', this.loadMore);
+            if (this.isMobile) {
+                window.removeEventListener('scroll', this.loadMore);
+                window.removeEventListener('touchmove', this.loadMore);
+            } else {
+                window.removeEventListener('scroll', this.loadMore);
+            }
         },
 
         methods: {
             async loadMore() {
                 const currentScrollPosition = window.pageYOffset;
-                const maxScrollPosition =
-                document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const maxScrollPosition = document.documentElement.scrollHeight - document.documentElement.clientHeight;
 
                 if (currentScrollPosition === maxScrollPosition && this.limit <= 845) {
                     if (!this.loadingMore) {
@@ -101,8 +112,6 @@
         },
     });
 </script>
-
-
 
 <style scoped lang="scss">
     @import './styles.scss';
