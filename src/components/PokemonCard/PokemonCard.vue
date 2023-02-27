@@ -37,10 +37,9 @@
     import { defineComponent, defineAsyncComponent } from 'vue';
 
     interface ComponentData {
-    input: string;
-    limit: number;
-    loadingMore: boolean;
-    isMobile: boolean;
+        input: string;
+        limit: number;
+        loadingMore: boolean;
     }
 
     export default defineComponent({
@@ -53,35 +52,27 @@
                 input: '',
                 limit: 60,
                 loadingMore: false,
-                isMobile: false,
             };
         },
 
         created() {
-            this.isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
             pokedex.fetchPokedex(this.limit);
-
-            if (this.isMobile) {
-                window.addEventListener('scroll', this.loadMore);
-                window.addEventListener('touchmove', this.loadMore);
-            } else {
-                window.addEventListener('scroll', this.loadMore);
-            }
+            window.addEventListener('scroll', this.loadMore);
+            window.addEventListener('touchmove', this.loadMore);
+            window.addEventListener('resize', this.handleResize);
         },
 
         beforeUnmount() {
-            if (this.isMobile) {
-                window.removeEventListener('scroll', this.loadMore);
-                window.removeEventListener('touchmove', this.loadMore);
-            } else {
-                window.removeEventListener('scroll', this.loadMore);
-            }
+            window.removeEventListener('scroll', this.loadMore);
+            window.removeEventListener('touchmove', this.loadMore);
+            window.removeEventListener('resize', this.handleResize);
         },
 
         methods: {
             async loadMore() {
-                const currentScrollPosition = window.pageYOffset;
-                const maxScrollPosition = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const currentScrollPosition = window.pageYOffset;
+            const maxScrollPosition =
+                document.documentElement.scrollHeight - document.documentElement.clientHeight;
 
                 if (currentScrollPosition === maxScrollPosition && this.limit <= 845) {
                     if (!this.loadingMore) {
@@ -91,6 +82,10 @@
                         this.loadingMore = false;
                     }
                 }
+            },
+
+            handleResize() {
+                this.$forceUpdate();
             },
         },
 
