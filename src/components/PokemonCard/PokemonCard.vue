@@ -41,48 +41,61 @@
     limit: number;
     }
 
-export default defineComponent({
-    components: {
-        InfoCard: defineAsyncComponent(() => import('../InfoCard/InfoCard.vue')),
-    },
-
-    data(): ComponentData {
-        return {
-            input: '',
-            limit: 60,
-        };
-    },
-
-    created() {
-        pokedex.fetchPokedex(this.limit);
-        window.addEventListener('scroll', this.loadMore);
-    },
-
-    beforeUnmount() {
-        window.removeEventListener('scroll', this.loadMore);
-    },
-
-    methods: {
-        async loadMore() {
-            const currentScrollPosition = window.pageYOffset;
-            const maxScrollPosition =
-            document.documentElement.scrollHeight - document.documentElement.clientHeight;
-
-            if (currentScrollPosition === maxScrollPosition && this.limit <= 845) {
-                this.limit += 60;
-                await pokedex.fetchPokedex(this.limit);
-            }
+    export default defineComponent({
+        components: {
+            InfoCard: defineAsyncComponent(() => import('../InfoCard/InfoCard.vue')),
         },
-    },
 
-    computed: {
-        filteredPokedex(): Pokemon[] {
-            return pokedex.pokedexState.pokedex.filter((pokemon: Pokemon) =>
-                pokemon.name.toLowerCase().includes(this.input.toLowerCase())
-            );
+        data() {
+            return {
+                input: '',
+                limit: 60,
+                loadingMore: false,
+            };
         },
-    },
-});
+
+        created() {
+            pokedex.fetchPokedex(this.limit);
+            window.addEventListener('scroll', this.loadMore);
+        },
+
+        beforeUnmount() {
+            window.removeEventListener('scroll', this.loadMore);
+        },
+
+        methods: {
+            async loadMore() {
+                const currentScrollPosition = window.pageYOffset;
+                const maxScrollPosition =
+                document.documentElement.scrollHeight - document.documentElement.clientHeight;
+
+                if (currentScrollPosition === maxScrollPosition && this.limit <= 845) {
+                    if (!this.loadingMore) {
+                        this.loadingMore = true;
+                        this.limit += 60;
+                        await pokedex.fetchPokedex(this.limit);
+                        this.loadingMore = false;
+                    }
+                }
+            },
+        },
+
+        computed: {
+            filteredPokedex() {
+                return pokedex.pokedexState.pokedex.filter((pokemon) =>
+                    pokemon.name.toLowerCase().includes(this.input.toLowerCase())
+                );
+            },
+        },
+
+        watch: {
+            'pokedex.pokedexState.pokedex'(newVal, oldVal) {
+                if (newVal !== oldVal) {
+                    this.$forceUpdate();
+                }
+            },
+        },
+    })
 </script>
 
 <style scoped lang="scss">
