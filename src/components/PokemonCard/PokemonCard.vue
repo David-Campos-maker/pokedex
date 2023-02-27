@@ -57,10 +57,12 @@
         created() {
             pokedex.fetchPokedex(this.limit);
             window.addEventListener('scroll', this.loadMore);
+            window.addEventListener('touchmove', this.loadMore);
         },
 
         beforeUnmount() {
             window.removeEventListener('scroll', this.loadMore);
+            window.removeEventListener('touchmove', this.loadMore);
         },
 
         methods: {
@@ -95,7 +97,7 @@
                 }
             },
         },
-    })
+    });
 </script>
 
 <style scoped lang="scss">
