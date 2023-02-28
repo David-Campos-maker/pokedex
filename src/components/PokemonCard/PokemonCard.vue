@@ -39,9 +39,6 @@
     interface ComponentData {
         input: string;
         limit: number;
-        loadingMore: boolean;
-        windowHeight: number;
-        isTouching: boolean;
     }
 
     export default defineComponent({
@@ -53,73 +50,29 @@
             return {
                 input: '',
                 limit: 60,
-                loadingMore: false,
-                windowHeight: window.innerHeight,
-                isTouching: false,
             };
         },
 
         created() {
             pokedex.fetchPokedex(this.limit);
-            window.addEventListener('scroll', this.loadMore);
-            window.addEventListener('resize', this.handleResize);
-            window.addEventListener('touchstart', this.handleTouchStart);
-            window.addEventListener('touchend', this.handleTouchEnd);
-            window.addEventListener('touchmove', this.handleTouchMove);
+            window.addEventListener('scroll', this.handleScroll);
+            window.addEventListener('touchmove', this.handleScroll);
         },
 
         beforeUnmount() {
-            window.removeEventListener('scroll', this.loadMore);
-            window.removeEventListener('resize', this.handleResize);
-            window.removeEventListener('touchstart', this.handleTouchStart);
-            window.removeEventListener('touchend', this.handleTouchEnd);
-            window.removeEventListener('touchmove', this.handleTouchMove);
+            window.removeEventListener('scroll', this.handleScroll);
+            window.removeEventListener('touchmove', this.handleScroll);
         },
 
         methods: {
-            async loadMore() {
-                const currentScrollPosition = window.pageYOffset;
-                const maxScrollPosition =
-                    document.documentElement.scrollHeight - this.windowHeight;
-
-                if (!this.isTouching && currentScrollPosition === maxScrollPosition && this.limit <= 845) {
-                    if (!this.loadingMore) {
-                        this.loadingMore = true;
-                        this.limit += this.limit < 420 ? 60 : 20;
-                        await pokedex.fetchPokedex(this.limit);
-                        this.loadingMore = false;
-                    }
-                }
-            },
-
-            handleResize() {
-                this.windowHeight = window.innerHeight;
-                this.$forceUpdate();
-            },
-
-            handleTouchStart() {
-                this.isTouching = true;
-            },
-
-            handleTouchEnd() {
-                this.isTouching = false;
-            },
-
-            handleTouchMove(event: TouchEvent) {
-                if (this.isTouching) {
-                    const currentScrollPosition = window.pageYOffset;
-                    const maxScrollPosition =
-                    document.documentElement.scrollHeight - this.windowHeight;
-                    const touchY = event.touches[0].clientY;
-                    const touchThreshold = 50;
-
-                    if (touchY < touchThreshold && currentScrollPosition === 0 && !this.loadingMore) {
-                        this.loadingMore = true;
-                        this.limit += this.limit < 420 ? 60 : 20;
-                        pokedex.fetchPokedex(this.limit).then(() => {
-                            this.loadingMore = false;
-                        });
-                    }
+            async handleScroll() {
+                const scrollHeight = document.documentElement.scrollHeight;
+                const clientHeight = window.innerHeight;
+                const scrollTop = window.pageYOffset;
+                const diff = scrollHeight - clientHeight - scrollTop;
+                if (diff < 1 && this.limit <= 845) {
+                    this.limit += 60;
+                    await pokedex.fetchPokedex(this.limit);
                 }
             },
         },
