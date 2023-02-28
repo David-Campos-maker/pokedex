@@ -41,6 +41,7 @@
         limit: number;
         loadingMore: boolean;
         windowHeight: number;
+        isTouching: boolean;
     }
 
     export default defineComponent({
@@ -54,6 +55,7 @@
                 limit: 60,
                 loadingMore: false,
                 windowHeight: window.innerHeight,
+                isTouching: false,
             };
         },
 
@@ -61,11 +63,17 @@
             pokedex.fetchPokedex(this.limit);
             window.addEventListener('scroll', this.loadMore);
             window.addEventListener('resize', this.handleResize);
+            window.addEventListener('touchstart', this.handleTouchStart);
+            window.addEventListener('touchend', this.handleTouchEnd);
+            window.addEventListener('touchmove', this.handleTouchMove);
         },
 
         beforeUnmount() {
             window.removeEventListener('scroll', this.loadMore);
             window.removeEventListener('resize', this.handleResize);
+            window.removeEventListener('touchstart', this.handleTouchStart);
+            window.removeEventListener('touchend', this.handleTouchEnd);
+            window.removeEventListener('touchmove', this.handleTouchMove);
         },
 
         methods: {
@@ -74,10 +82,10 @@
                 const maxScrollPosition =
                     document.documentElement.scrollHeight - this.windowHeight;
 
-                if (currentScrollPosition === maxScrollPosition && this.limit <= 845) {
+                if (!this.isTouching && currentScrollPosition === maxScrollPosition && this.limit <= 845) {
                     if (!this.loadingMore) {
                         this.loadingMore = true;
-                        this.limit += 60;
+                        this.limit += this.limit < 420 ? 60 : 20;
                         await pokedex.fetchPokedex(this.limit);
                         this.loadingMore = false;
                     }
@@ -87,6 +95,32 @@
             handleResize() {
                 this.windowHeight = window.innerHeight;
                 this.$forceUpdate();
+            },
+
+            handleTouchStart() {
+                this.isTouching = true;
+            },
+
+            handleTouchEnd() {
+                this.isTouching = false;
+            },
+
+            handleTouchMove(event: TouchEvent) {
+                if (this.isTouching) {
+                    const currentScrollPosition = window.pageYOffset;
+                    const maxScrollPosition =
+                    document.documentElement.scrollHeight - this.windowHeight;
+                    const touchY = event.touches[0].clientY;
+                    const touchThreshold = 50;
+
+                    if (touchY < touchThreshold && currentScrollPosition === 0 && !this.loadingMore) {
+                        this.loadingMore = true;
+                        this.limit += this.limit < 420 ? 60 : 20;
+                        pokedex.fetchPokedex(this.limit).then(() => {
+                            this.loadingMore = false;
+                        });
+                    }
+                }
             },
         },
 
