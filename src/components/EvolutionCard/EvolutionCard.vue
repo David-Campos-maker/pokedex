@@ -4,7 +4,7 @@
             <div class="evolution-card__pokemon">
                 <div class="evolution-card__evolution-header">
                     <div>
-                        <img :src="evolution?.sprite" :alt="evolution?.name">
+                        <img class="pokedex__pokemon-sprites__img" :src="evolution?.sprite" :alt="evolution?.name">
                     </div>
                     <div class="evolution-card__id">#{{ evolution?.id }}</div>
                 </div>
@@ -43,4 +43,5 @@
 
 <style scoped lang="scss">
     @import "./styles.scss";
+    @import url("../../assets/scss/styles.scss");
 </style>

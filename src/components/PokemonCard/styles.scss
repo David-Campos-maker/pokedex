@@ -7,12 +7,11 @@ $columns: (
 );
 
 .pokemon-card__container {
-    display: inline-flex;
-    align-items: baseline;
+    display: flex;
     padding: 12px;
-    flex-direction: row;
-    justify-content: space-between;
+    justify-content: center;
     max-width: 100%;
+    flex-wrap: wrap;
     width: calc(100% / #{map-get($columns, 1)} - 12px);
 }
 
@@ -27,8 +26,41 @@ $columns: (
 
 .pokedex__search-bar {
     width: 100%;
-    max-width: 500px;
-    margin: 2% auto;
+
+    &__container {
+        max-width: 500px;
+        margin: 2% auto;
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        justify-content: center;
+    }
+}
+
+.pokedex__search-button {
+    background-color: #E73434;
+    border-radius: 6px;
+    border-color: transparent;
+    width: 70px;
+
+    &:hover {
+        background-color: transparent;
+        border: 1px solid #E73434;
+        border-radius: 6px;
+        transition: 1ms;
+    }
+}
+
+.pokedex__search-icon {
+    color: #FFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 32px;
+
+    &:hover {
+        color: #E73434;
+    }
 }
 
 .pokedex__no-pokemon-found {
@@ -53,7 +85,7 @@ $columns: (
 }
 
 .form-control:focus {
-    border: 2px solid #E73434;
+    border: 1px solid #E73434;
     box-shadow: none;
     transition: 0.5ms;
 }
@@ -103,6 +135,12 @@ $columns: (
         position: relative;
         margin-top: 2%;
     }
+
+    .pokedex__search-button {
+        max-width: none;
+        position: relative;
+        margin-top: 2%;
+    }
 }
 
 @media only screen and (max-width: 500px) {
@@ -121,6 +159,12 @@ $columns: (
         position: relative;
         margin-top: 2%;
     }
+
+    .pokedex__search-button {
+        max-width: none;
+        position: relative;
+        margin-top: 2%;
+    }
 }
 
 @media only screen and (min-width: 320px) and (max-width: 420px) {
@@ -135,6 +179,12 @@ $columns: (
 
     .pokedex__search-bar {
         width: 80%;
+        max-width: none;
+        position: relative;
+        margin-top: 2%;
+    }
+
+    .pokedex__search-button {
         max-width: none;
         position: relative;
         margin-top: 2%;

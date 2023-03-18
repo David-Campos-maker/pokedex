@@ -2,27 +2,43 @@
     <div class="container-fluid">
         <div class="d-flex justify-content-center">
             <div class="pokedex__main-container mx-auto">
-                <div class="form-outline pokedex__search-bar">
-                    <input v-model="input" type="search" 
-                            class="form-control rounded pokedex__serach-pokemon" 
-                            placeholder="Search for a Pokémon" 
-                            aria-label="Search" 
-                            aria-describedby="search-addon" 
+                <div class="form-outline pokedex__search-bar__container">
+                    <input
+                        v-model.lazy="input"
+                        type="search"
+                        class="form-control rounded pokedex__search-bar"
+                        placeholder="Search for a Pokémon"
+                        aria-label="Search"
+                        aria-describedby="search-addon"
+                        @keyup.enter="searchPokemon()"
                     />
+                    <button @click="searchPokemon()" class="pokedex__search-button">
+                        <span class="material-symbols-rounded pokedex__search-icon">
+                            search
+                        </span>
+                    </button>
                 </div>
                 
                 <div class="pokedex__main-container">
             
-                    <div class="pokemon-card__container" v-for="pokemon in filteredPokedex" :key="pokemon.id">
+                    <div class="pokemon-card__container" v-if="!input">
                         <keep-alive>
-                            <info-card :pokemon="pokemon"></info-card>
+                            <info-card
+                                v-for="pokemon in pokemonList"
+                                :key="pokemon.id"
+                                :pokemon="pokemon"
+                            ></info-card>
                         </keep-alive>
                     </div>
+
+                    <div class="pokemon-card__container" v-else-if="foundPokemon">
+                        <info-card :pokemon="foundPokemon"></info-card>
+                    </div>
             
-                    <div class="pokedex__no-pokemon-found" v-if="input&&!filteredPokedex.length">
+                    <div class="pokedex__no-pokemon-found" v-if="input && !foundPokemon">
                         <p>No Pokémon found...</p>
                         <div class="pokedex__error-code">
-                            4 <img class="pokedex__logo" src="../../assets/logo.png" alt="logo"> 4
+                            4<img class="pokedex__logo" src="../../assets/logo.png" alt="logo" />4
                         </div>
                     </div>
                 </div>
@@ -39,6 +55,7 @@
     interface ComponentData {
         input: string;
         limit: number;
+        foundPokemon: Pokemon | null;
     }
 
     export default defineComponent({
@@ -50,6 +67,7 @@
             return {
                 input: '',
                 limit: 60,
+                foundPokemon: null,
             };
         },
 
@@ -75,18 +93,29 @@
                     await pokedex.fetchPokedex(this.limit);
                 }
             },
+
+            async searchPokemon() {
+                if (this.input) {
+                    const formattedInput = this.input.toLowerCase().replace(' ', '-');
+                    const pokemon = await pokedex.fetchPokemonByName(formattedInput);
+                    this.foundPokemon = pokemon;
+                } else {
+                    this.foundPokemon = null;
+                }
+            },
         },
 
         computed: {
-            filteredPokedex(): Pokemon[] {
-                const input = this.input;
-                return pokedex.pokedexState.pokedex.filter((pokemon: Pokemon) =>
-                    pokemon.name.toLowerCase().includes(input.toLowerCase())
-                );
+            pokemonList(): Pokemon[] {
+                return pokedex.pokedexState.pokedex
             },
         },
 
         watch: {
+            input() {
+                this.searchPokemon();
+            },
+
             'pokedex.pokedexState.pokedex'(newVal, oldVal) {
                 if (newVal !== oldVal) {
                     this.$forceUpdate();

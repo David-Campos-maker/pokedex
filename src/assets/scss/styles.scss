@@ -43,17 +43,11 @@ justify-content: center;
     font-family: 'Material Icons';
 }
 
-:-webkit-scrollbar {
-    width: 9px;
-}
-  
-  /* Track */
-:-webkit-scrollbar-track {
-    background: #f1f1f1; 
-}
-   
-  /* Handle */
-:-webkit-scrollbar-thumb {
-    background: #E73434; 
-    border-radius: 5px;
+.pokedex__pokemon-sprites__img {
+    align-items: center;
+    display: flex;
+    flex: 0 0 90px;
+    justify-content: center;
+    min-height: 96px;
+    min-width: 96px;
 }

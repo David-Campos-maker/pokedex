@@ -49,7 +49,32 @@ async function fetchPokedex(limit: number) {
   pokedexState.pokedex = pokedex;
 }
 
+async function fetchPokemonByName(name: string) {
+  try {
+    const response = await api.get(`pokemon/${name}`);
+
+    const pokemon = new Pokemon(
+      getPokemonAbilities(response.data.abilities),
+      response.data.species.url,
+      response.data.height,
+      ("000" + response.data.id).slice(-3),
+      response.data.name,
+      getPokemonStats(response.data.stats),
+      getPokemonTypes(response.data.types),
+      getMovesUrl(response.data.moves),
+      getPokemonSprites(response.data.sprites),
+      response.data.weight
+    );
+    
+    return pokemon;
+  } catch (error) {
+    console.error(`Failed to fetch Pokemon "${name}":`, error);
+    return null;
+  }
+}
+
 export default {
   pokedexState,
   fetchPokedex,
+  fetchPokemonByName,
 };

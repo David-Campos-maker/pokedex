@@ -15,7 +15,7 @@
                 </div>
 
                 <div class="info-card__pokemon-sprite">
-                    <img class="info-card__pokemon-sprite__img" :src="pokemon?.sprites.default" alt="sprite">
+                    <img class="info-card__pokemon-sprite__img pokedex__pokemon-sprites__img" :src="pokemon?.sprites.default" alt="sprite">
                 </div>
             </div>
             
@@ -43,13 +43,15 @@
                         </div>
                         <div class="modal-body show-details__container">
                             <div class="show-details__general-info">
-                                <div class="show-detais__pokemon-form">
+                                <div class="show-details__pokemon-form">
                                     <div class="show-details__pokemon-sprite">
                                         <div class="show-details__sprite">
-                                            <img class="show-details__pokemon-sprite__img" :src="pokemon?.sprites.default" alt="sprite">
+                                            <img class="show-details__pokemon-sprite__img pokedex__pokemon-sprites__img" 
+                                            :src="pokemon?.sprites.default" alt="sprite">
                                         </div>
                                         <div class="show-details__sprite-shiny">
-                                            <img class="show-details__pokemon-sprite__img" :src="pokemon?.sprites.shiny" alt="sprite">
+                                            <img class="show-details__pokemon-sprite__img pokedex__pokemon-sprites__img" 
+                                            :src="pokemon?.sprites.shiny" alt="sprite">
                                         </div>
                                     </div>
                                     <div class="show-details__pokemon-entries">
