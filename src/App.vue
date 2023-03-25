@@ -1,7 +1,5 @@
 <template>
-  <KeepAlive>
     <PokemonCard/>
-  </KeepAlive>
 </template>
 
 <script lang="ts">

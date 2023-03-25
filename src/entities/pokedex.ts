@@ -1,6 +1,6 @@
 /**
  * In this file the pokemon list is created as a global and reactive object
- */
+*/
 
 import api from '../services/api';
 import { reactive } from 'vue';

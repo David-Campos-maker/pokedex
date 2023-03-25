@@ -65,18 +65,27 @@
   import type IMoves from '../../Interfaces/IMoves';
   import api from "../../services/api";
   import getEvolutionTree from "../../functions/getEvolutionTree";
-  import getEvolutionChainUrl from "../../functions/getEvolutionChainUrl";
   import type IEvolution from "../../Interfaces/IEvolution";
 
+  declare global {
+    interface Window {
+      myCache: Record<string, any>;
+    }
+  }
+
+  if (!window.myCache) {
+    window.myCache = {};
+  }
+
   export default defineComponent({
+    name:"details-modal",
+
     components: {
       MoveCard , 
       StatsCard , 
       EvolutionCard , 
       TypesCard , 
     },
-
-    name:"details-modal",
 
     data() {
       let modalRef: any = null;
@@ -88,7 +97,7 @@
         modalRef ,
         moves ,
         evolution ,
-        entries
+        entries ,
       }
     },
 
@@ -97,36 +106,54 @@
     },
 
     methods: {
-      async getEntriesText() {
-        const response = await api.get(this.pokemon!.speciesUrl);
-
-        for(const element of response.data.flavor_text_entries) {
-            if (element.language.name == 'en') {
-                this.entries = element.flavor_text;
-                break;
-            }
+      async getData() {
+        const speciesResponse = await api.get(this.pokemon!.speciesUrl);
+        for (const element of speciesResponse.data.flavor_text_entries) {
+          if (element.language.name == 'en') {
+            this.entries = element.flavor_text;
+            break;
+          }
         }
-    },
 
-      async getMoves() {
-        const moves = await Promise.all(this.pokemon!.moves.map(async (move: string) => {
-          const res = await api.get(move);
-
-          return {
-            name: res.data.name.replace(/-/g , " "),
-            accuracy: res.data.accuracy,
-            damage_class: res.data.damage_class.name,
-            power: res.data.power,
-            pp: res.data.pp,
-            type: res.data.type.name
-          };
-        }));
-        this.moves = moves;
+        const evolutionChainUrl = speciesResponse.data.evolution_chain.url;
+        const evolutionResponse = await api.get(evolutionChainUrl);
+        this.evolution = await getEvolutionTree(evolutionResponse.data.chain);
       },
 
-      async getEvolutions() {
-        const res = await api.get(await getEvolutionChainUrl(this.pokemon!.speciesUrl));
-        this.evolution = await getEvolutionTree(res.data.chain);
+      async getMove(move: string) {
+        if (window.myCache[move]) {
+          return window.myCache[move];
+        }
+
+        const res = await api.get(move);
+        const data = {
+          name: res.data.name.replace(/-/g , " "),
+          accuracy: res.data.accuracy,
+          damage_class: res.data.damage_class.name,
+          power: res.data.power,
+          pp: res.data.pp,
+          type: res.data.type.name
+        };
+
+        window.myCache[move] = data;
+
+        return data;
+      },
+
+      async getMoves() {
+        if (!this.pokemon) return;
+
+        const batchSize = 10;
+        let moves: IMoves[] = [];
+        for (let i = 0; i < this.pokemon!.moves.length; i += batchSize) {
+          const batchMoves: IMoves [] = await Promise.all(
+            this.pokemon!.moves.slice(i, i + batchSize).map(async (move: string) => {
+              return this.getMove(move);
+            })
+          );
+          moves = moves.concat(batchMoves);
+        }
+        this.moves = moves;
       },
 
       clearMoves() {
@@ -134,8 +161,7 @@
       },
 
       async fetchData() {
-        await this.getEntriesText();
-        await this.getEvolutions();
+        await this.getData();
         await this.getMoves();
       },
 

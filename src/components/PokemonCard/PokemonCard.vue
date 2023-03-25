@@ -22,13 +22,11 @@
                 <div class="pokedex__main-container">
             
                     <div class="pokemon-card__container" v-if="!input">
-                        <keep-alive>
                             <info-card
                                 v-for="pokemon in pokemonList"
                                 :key="pokemon.id"
                                 :pokemon="pokemon"
                             ></info-card>
-                        </keep-alive>
                     </div>
 
                     <div class="pokemon-card__container" v-else-if="foundPokemon">
