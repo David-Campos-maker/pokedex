@@ -25,7 +25,12 @@ async function fetchPokedex(limit: number) {
   const promises: Promise<any>[] = [];
 
   for (const result of response.data.results) {
-    promises.push(api.get(result.url));
+    const cachedPokemon = localStorage.getItem(result.name);
+    if (cachedPokemon) {
+      pokedex.push(JSON.parse(cachedPokemon));
+    } else {
+      promises.push(api.get(result.url));
+    }
   }
 
   const responses = await Promise.all(promises);
@@ -43,7 +48,10 @@ async function fetchPokedex(limit: number) {
       getPokemonSprites(res.data.sprites),
       res.data.weight
     );
+
     pokedex.push(pokemon);
+
+    localStorage.setItem(res.data.name, JSON.stringify(pokemon));
   }
 
   pokedexState.pokedex = pokedex;
@@ -51,6 +59,11 @@ async function fetchPokedex(limit: number) {
 
 async function fetchPokemonByName(name: string) {
   try {
+    const cachedPokemon = localStorage.getItem(name);
+    if (cachedPokemon) {
+      return JSON.parse(cachedPokemon);
+    }
+
     const response = await api.get(`pokemon/${name}`);
 
     const pokemon = new Pokemon(
@@ -65,9 +78,13 @@ async function fetchPokemonByName(name: string) {
       getPokemonSprites(response.data.sprites),
       response.data.weight
     );
+
+    localStorage.setItem(name, JSON.stringify(pokemon));
     
     return pokemon;
-  } catch (error) {
+  } 
+  
+  catch (error) {
     console.error(`Failed to fetch Pokemon "${name}":`, error);
     return null;
   }
