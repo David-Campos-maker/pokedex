@@ -143,16 +143,9 @@
       async getMoves() {
         if (!this.pokemon) return;
 
-        const batchSize = 10;
-        let moves: IMoves[] = [];
-        for (let i = 0; i < this.pokemon!.moves.length; i += batchSize) {
-          const batchMoves: IMoves [] = await Promise.all(
-            this.pokemon!.moves.slice(i, i + batchSize).map(async (move: string) => {
-              return this.getMove(move);
-            })
-          );
-          moves = moves.concat(batchMoves);
-        }
+        const movePromises = this.pokemon.moves.map((move: string) => this.getMove(move));
+        const moves = await Promise.all(movePromises);
+
         this.moves = moves;
       },
 

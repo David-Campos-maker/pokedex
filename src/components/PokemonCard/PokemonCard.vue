@@ -19,7 +19,7 @@
                     </button>
                 </div>
                 
-                <div class="pokedex__main-container">
+                <div>
             
                     <div class="pokemon-card__container" v-if="!input">
                             <info-card

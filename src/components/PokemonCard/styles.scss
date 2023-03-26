@@ -17,10 +17,6 @@ $columns: (
 
 .pokedex__main-container {
     margin: 0 auto;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
     max-width: calc(100% - 24px);
 }
 

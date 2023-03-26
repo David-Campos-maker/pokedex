@@ -19,6 +19,12 @@ const pokedexState = reactive<PokedexState>({
   pokedex: [],
 });
 
+const CACHE_EXPIRATION_TIME = 24 * 60 * 60 * 1000;
+
+function isCacheExpired(timestamp: number) {
+  return Date.now() - timestamp > CACHE_EXPIRATION_TIME;
+}
+
 async function fetchPokedex(limit: number) {
   const response = await api.get(`pokemon?limit=${limit}&offset=0`);
   const pokedex: Array<Pokemon> = [];
@@ -27,7 +33,13 @@ async function fetchPokedex(limit: number) {
   for (const result of response.data.results) {
     const cachedPokemon = localStorage.getItem(result.name);
     if (cachedPokemon) {
-      pokedex.push(JSON.parse(cachedPokemon));
+      const cachedData = JSON.parse(cachedPokemon);
+      if (isCacheExpired(cachedData.timestamp)) {
+        localStorage.removeItem(result.name);
+        promises.push(api.get(result.url));
+      } else {
+        pokedex.push(cachedData.pokemon);
+      }
     } else {
       promises.push(api.get(result.url));
     }
@@ -51,7 +63,10 @@ async function fetchPokedex(limit: number) {
 
     pokedex.push(pokemon);
 
-    localStorage.setItem(res.data.name, JSON.stringify(pokemon));
+    localStorage.setItem(res.data.name, JSON.stringify({
+      pokemon,
+      timestamp: Date.now()
+    }));
   }
 
   pokedexState.pokedex = pokedex;
@@ -61,7 +76,12 @@ async function fetchPokemonByName(name: string) {
   try {
     const cachedPokemon = localStorage.getItem(name);
     if (cachedPokemon) {
-      return JSON.parse(cachedPokemon);
+      const cachedData = JSON.parse(cachedPokemon);
+      if (isCacheExpired(cachedData.timestamp)) {
+        localStorage.removeItem(name);
+      } else {
+        return cachedData.pokemon;
+      }
     }
 
     const response = await api.get(`pokemon/${name}`);
@@ -79,7 +99,10 @@ async function fetchPokemonByName(name: string) {
       response.data.weight
     );
 
-    localStorage.setItem(name, JSON.stringify(pokemon));
+    localStorage.setItem(name, JSON.stringify({
+      pokemon,
+      timestamp: Date.now()
+    }));
     
     return pokemon;
   } 
