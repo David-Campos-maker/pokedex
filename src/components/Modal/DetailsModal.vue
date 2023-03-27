@@ -67,16 +67,6 @@
   import getEvolutionTree from "../../functions/getEvolutionTree";
   import type IEvolution from "../../Interfaces/IEvolution";
 
-  declare global {
-    interface Window {
-      myCache: Record<string, any>;
-    }
-  }
-
-  if (!window.myCache) {
-    window.myCache = {};
-  }
-
   export default defineComponent({
     name:"details-modal",
 
@@ -121,11 +111,18 @@
       },
 
       async getMove(move: string) {
-        if (window.myCache[move]) {
-          return window.myCache[move];
+        const cachedMove = localStorage.getItem(move);
+
+        if (cachedMove) {
+          const parsedMove = JSON.parse(cachedMove);
+          const expirationDate = new Date(parsedMove.expirationDate);
+          if (expirationDate > new Date()) {
+            return parsedMove.data;
+          }
         }
 
         const res = await api.get(move);
+
         const data = {
           name: res.data.name.replace(/-/g , " "),
           accuracy: res.data.accuracy,
@@ -135,13 +132,26 @@
           type: res.data.type.name
         };
 
-        window.myCache[move] = data;
+        const expirationDate = new Date();
+        expirationDate.setDate(expirationDate.getDate() + 1);
+        localStorage.setItem(move, JSON.stringify({ data, expirationDate }));
 
         return data;
       },
 
       async getMoves() {
         if (!this.pokemon) return;
+
+        this.pokemon!.moves.forEach(move => {
+          const cachedMove = localStorage.getItem(move);
+          if (cachedMove) {
+            const parsedMove = JSON.parse(cachedMove);
+            const expirationDate = new Date(parsedMove.expirationDate);
+            if (expirationDate < new Date()) {
+              localStorage.removeItem(move);
+            }
+          }
+        });
 
         const movePromises = this.pokemon.moves.map((move: string) => this.getMove(move));
         const moves = await Promise.all(movePromises);

@@ -48,25 +48,25 @@
 <script lang="ts">
     import pokedex from '../../entities/pokedex';
     import Pokemon from '../../entities/Pokemon';
-    import { defineComponent, defineAsyncComponent } from 'vue';
-
-    interface ComponentData {
-        input: string;
-        limit: number;
-        foundPokemon: Pokemon | null;
-    }
+    import { defineComponent, defineAsyncComponent , ref} from 'vue';
 
     export default defineComponent({
         components: {
             InfoCard: defineAsyncComponent(() => import('../InfoCard/InfoCard.vue')),
         },
 
-        data(): ComponentData {
+        setup() {
+            const input = ref('');
+            const limit = ref(60);
+            const foundPokemon = ref(null);
+            const handleScrollEnabled = ref(true);
+
             return {
-                input: '',
-                limit: 60,
-                foundPokemon: null,
-            };
+                input,
+                limit,
+                foundPokemon,
+                handleScrollEnabled,
+            }
         },
 
         created() {
@@ -82,10 +82,13 @@
 
         methods: {
             async handleScroll() {
+                if (!this.handleScrollEnabled) return;
+
                 const scrollHeight = document.documentElement.scrollHeight;
                 const clientHeight = window.innerHeight;
                 const scrollTop = window.pageYOffset;
                 const diff = scrollHeight - clientHeight - scrollTop;
+                
                 if (diff < 1 && this.limit <= 845) {
                     this.limit += 60;
                     await pokedex.fetchPokedex(this.limit);
@@ -94,10 +97,12 @@
 
             async searchPokemon() {
                 if (this.input) {
+                    this.handleScrollEnabled = false;
                     const formattedInput = this.input.toLowerCase().replace(' ', '-');
                     const pokemon = await pokedex.fetchPokemonByName(formattedInput);
                     this.foundPokemon = pokemon;
                 } else {
+                    this.handleScrollEnabled = true;
                     this.foundPokemon = null;
                 }
             },
