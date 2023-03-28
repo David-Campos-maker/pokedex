@@ -81,6 +81,12 @@
     }
 
     &__pokemon-abilities {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        align-content: center;
+        align-items: center;
+        justify-content: space-between;
         background-color: #FFF;
         padding: 3px;
         border-radius: 15px;
@@ -123,6 +129,14 @@
             display: flex;
             margin-top: 13%;
             width: 310px;
+            justify-content: center;
+            padding: 1%;
+        }
+
+        @media only screen and (min-width: 820px) and (max-width: 1180px) {
+            display: flex;
+            margin-top: 13%;
+            width: 460px;
             justify-content: center;
             padding: 1%;
         }
@@ -222,6 +236,12 @@
             padding: 1%;
             margin-top: 9%;
             width: 340px;
+        }
+
+        @media only screen and (min-width: 820px) and (max-width: 1180px) {
+            padding: 1%;
+            margin-top: 9%;
+            width: 460px;
         }
 
         @media only screen and (max-width: 320px) {

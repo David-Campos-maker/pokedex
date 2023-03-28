@@ -6,7 +6,7 @@
             <h1 class="modal-title fs-5 show-details__pokemon-name" id="exampleModalLabel">
                 {{ pokemon?.name }}
             </h1>
-            <button @click="clearMoves()" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button @click="closeModal()" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body show-details__container">
             <div class="show-details__general-info">
@@ -92,7 +92,18 @@
     },
 
     props: {
-      pokemon: Pokemon
+      pokemon: Pokemon ,
+      onClose: Function
+    },
+
+    computed: {
+      modalSizeClass() {
+        if (window.matchMedia('(max-width: 600px)').matches) {
+          return 'modal-fullscreen';
+        } else {
+          return 'modal-xl';
+        }
+      },
     },
 
     methods: {
@@ -159,8 +170,11 @@
         this.moves = moves;
       },
 
-      clearMoves() {
+      closeModal() {
         this.moves = [];
+        if (this.$props.onClose) {
+          this.$props.onClose();
+        }
       },
 
       async fetchData() {

@@ -32,22 +32,20 @@
             </button>
 
             <!-- Modal -->
-            <DetailsModal :pokemon="pokemon" ref="modal"></DetailsModal>
         </div>
     </div>
   
 </template>
 
 <script lang="ts">
-    import { defineComponent } from "vue";
+    import { defineComponent , createApp } from "vue";
     import Pokemon from "../../entities/Pokemon";
     import TypesCard from "../TypesCard/TypesCard.vue";
     import DetailsModal from "../Modal/DetailsModal.vue";
 
     export default  defineComponent({
         components: {  
-            TypesCard , 
-            DetailsModal 
+            TypesCard ,  
         } ,
 
         name: "info-card" ,
@@ -58,11 +56,23 @@
 
         methods: {
             async modalTrigger() {
-                (this.$refs.modal as InstanceType<typeof DetailsModal>).fetchData();
-                (this.$refs.modal as InstanceType<typeof DetailsModal>).showModal();
+                const modalContainer = document.createElement('div');
+                document.body.appendChild(modalContainer);
+
+                const modalApp = createApp(DetailsModal, {
+                    pokemon: this.pokemon,
+                    onClose: () => {
+                    modalApp.unmount();
+                    document.body.removeChild(modalContainer);
+                    },
+                });
+                const modalInstance = modalApp.mount(modalContainer) as any;
+
+                await modalInstance.fetchData();
+                modalInstance.showModal();
             }
         }
-    })
+    });
 </script>
 
 <style scoped lang="scss">

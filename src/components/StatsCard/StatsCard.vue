@@ -21,7 +21,7 @@
 
         props: {
             pokemonStats: Array
-        }, 
+        },
 
         methods: {
             getStyleClass(baseStat: number): string {
@@ -37,7 +37,7 @@
             },
 
             getQualityBarWidth: function(baseStat: number): string {
-                let result = `width: ${(baseStat * 100) / 275}%`;
+                let result = `width: ${(baseStat * 100) / 275}%;`;
                 return result;
             }
         }
