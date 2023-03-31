@@ -30,7 +30,11 @@
                     </div>
 
                     <div class="pokemon-card__container" v-else-if="foundPokemon">
-                        <info-card :pokemon="foundPokemon"></info-card>
+                        <info-card 
+                            v-for="foundForm in foundPokemon"
+                            :key="foundForm.id"
+                            :pokemon="foundForm"
+                        ></info-card>
                     </div>
             
                     <div class="pokedex__no-pokemon-found" v-if="input && !foundPokemon">
@@ -58,7 +62,7 @@
         setup() {
             const input = ref('');
             const limit = ref(60);
-            const foundPokemon = ref(null);
+            const foundPokemon = ref<any[] | null>(null);
             const handleScrollEnabled = ref(true);
 
             return {
@@ -101,7 +105,9 @@
                     const formattedInput = this.input.toLowerCase().replace(' ', '-');
                     const pokemon = await pokedex.fetchPokemonByName(formattedInput);
                     this.foundPokemon = pokemon;
-                } else {
+                } 
+                
+                else {
                     this.handleScrollEnabled = true;
                     this.foundPokemon = null;
                 }

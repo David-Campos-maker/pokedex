@@ -19,7 +19,7 @@ const pokedexState = reactive<PokedexState>({
   pokedex: [],
 });
 
-const CACHE_EXPIRATION_TIME = 24 * 60 * 60 * 1000;
+const CACHE_EXPIRATION_TIME = 60 * 60 * 1000;
 
 function isCacheExpired(timestamp: number) {
   return Date.now() - timestamp > CACHE_EXPIRATION_TIME;
@@ -32,15 +32,20 @@ async function fetchPokedex(limit: number) {
 
   for (const result of response.data.results) {
     const cachedPokemon = localStorage.getItem(result.name);
+
     if (cachedPokemon) {
       const cachedData = JSON.parse(cachedPokemon);
       if (isCacheExpired(cachedData.timestamp)) {
         localStorage.removeItem(result.name);
         promises.push(api.get(result.url));
-      } else {
+      } 
+      
+      else {
         pokedex.push(cachedData.pokemon);
       }
-    } else {
+    } 
+    
+    else {
       promises.push(api.get(result.url));
     }
   }
@@ -72,39 +77,67 @@ async function fetchPokedex(limit: number) {
   pokedexState.pokedex = pokedex;
 }
 
-async function fetchPokemonByName(name: string) {
+async function fetchPokemonByName(name: string): Promise<Array<any> | null> {
   try {
-    const cachedPokemon = localStorage.getItem(name);
-    if (cachedPokemon) {
-      const cachedData = JSON.parse(cachedPokemon);
-      if (isCacheExpired(cachedData.timestamp)) {
-        localStorage.removeItem(name);
-      } else {
-        return cachedData.pokemon;
-      }
-    }
+    const baseName = name.split('-')[0];
 
-    const response = await api.get(`pokemon/${name}`);
+    const response = await api.get(`pokemon-species/${baseName}`);
+    const species = response.data.varieties;
 
-    const pokemon = new Pokemon(
-      getPokemonAbilities(response.data.abilities),
-      response.data.species.url,
-      response.data.height,
-      ("000" + response.data.id).slice(-3),
-      response.data.name,
-      getPokemonStats(response.data.stats),
-      getPokemonTypes(response.data.types),
-      getMovesUrl(response.data.moves),
-      getPokemonSprites(response.data.sprites),
-      response.data.weight
+    const pokemons = await Promise.all(
+      species.map(async (variety: { pokemon: { name: string; url: string; }; }) => {
+        const varietyName = variety.pokemon.name;
+        const cachedPokemon = localStorage.getItem(varietyName);
+
+        if (cachedPokemon) {
+          const cachedData = JSON.parse(cachedPokemon);
+          if (isCacheExpired(cachedData.timestamp)) {
+            localStorage.removeItem(varietyName);
+          } 
+          
+          else {
+            return cachedData.pokemon;
+          }
+        }
+
+        try {
+          const pokemonResponse = await api.get(variety.pokemon.url);
+          
+          if (pokemonResponse && pokemonResponse.data) {
+            const pokemon = new Pokemon(
+              getPokemonAbilities(pokemonResponse.data.abilities),
+              pokemonResponse.data.species.url,
+              pokemonResponse.data.height,
+              ("000" + pokemonResponse.data.id).slice(-3),
+              pokemonResponse.data.name,
+              getPokemonStats(pokemonResponse.data.stats),
+              getPokemonTypes(pokemonResponse.data.types),
+              getMovesUrl(pokemonResponse.data.moves),
+              getPokemonSprites(pokemonResponse.data.sprites),
+              pokemonResponse.data.weight
+            );
+
+            localStorage.setItem(varietyName, JSON.stringify({
+              pokemon,
+              timestamp: Date.now()
+            }));
+
+            return pokemon;
+          } 
+          
+          else {
+            return null;
+          }
+        } 
+        
+        catch (error) {
+          console.error(`Failed to fetch Pokemon form "${variety.pokemon.url}":`, error);
+          return null;
+        }
+      })
     );
 
-    localStorage.setItem(name, JSON.stringify({
-      pokemon,
-      timestamp: Date.now()
-    }));
-    
-    return pokemon;
+    return pokemons;
   } 
   
   catch (error) {

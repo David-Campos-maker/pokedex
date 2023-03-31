@@ -109,6 +109,7 @@
     methods: {
       async getData() {
         const speciesResponse = await api.get(this.pokemon!.speciesUrl);
+
         for (const element of speciesResponse.data.flavor_text_entries) {
           if (element.language.name == 'en') {
             this.entries = element.flavor_text;
@@ -127,6 +128,7 @@
         if (cachedMove) {
           const parsedMove = JSON.parse(cachedMove);
           const expirationDate = new Date(parsedMove.expirationDate);
+
           if (expirationDate > new Date()) {
             return parsedMove.data;
           }
@@ -144,6 +146,7 @@
         };
 
         const expirationDate = new Date();
+
         expirationDate.setDate(expirationDate.getDate() + 1);
         localStorage.setItem(move, JSON.stringify({ data, expirationDate }));
 
@@ -155,9 +158,11 @@
 
         this.pokemon!.moves.forEach(move => {
           const cachedMove = localStorage.getItem(move);
+
           if (cachedMove) {
             const parsedMove = JSON.parse(cachedMove);
             const expirationDate = new Date(parsedMove.expirationDate);
+
             if (expirationDate < new Date()) {
               localStorage.removeItem(move);
             }
@@ -172,6 +177,7 @@
 
       closeModal() {
         this.moves = [];
+
         if (this.$props.onClose) {
           this.$props.onClose();
         }
@@ -186,6 +192,7 @@
         if(!this.modalRef) {
           this.modalRef = new (window as any).bootstrap.Modal(this.$refs["info-modal"]);
         }
+        
         this.modalRef.toggle();
       }
     }
