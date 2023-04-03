@@ -18,9 +18,9 @@ export default async function getEvolutionTree(evoData: any): Promise<IEvolution
 
     const baseForm = varieties.find(variety => variety.is_default);
 
-    const res = await api.get(`https://pokeapi.co/api/v2/pokemon/${baseForm.pokemon.name}`);
+    const res = await api.get(`pokemon/${baseForm.pokemon.name}`);
     nextStep.id = ("000" + res.data.id).slice(-3);
-    nextStep.name = res.data.name;
+    nextStep.name = res.data.name.split('-')[0];
     nextStep.sprite = res.data.sprites.front_default;
     nextStep.types = getPokemonTypes(res.data.types);
     nextStep.next_step = evolutionTree;
