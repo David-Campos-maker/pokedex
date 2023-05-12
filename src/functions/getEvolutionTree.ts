@@ -16,11 +16,11 @@ export default async function getEvolutionTree(evoData: any): Promise<IEvolution
     const speciesResponse = await api.get(`pokemon-species/${evoData.species.name}`);
     const varieties = speciesResponse.data.varieties;
 
-    const baseForm = varieties.find(variety => variety.is_default);
+    const baseForm = varieties.find((variety: { is_default: boolean; }) => variety.is_default);
 
     const res = await api.get(`pokemon/${baseForm.pokemon.name}`);
     nextStep.id = ("000" + res.data.id).slice(-3);
-    nextStep.name = res.data.name.split('-')[0];
+    nextStep.name = res.data.name.replace('-', ' ');
     nextStep.sprite = res.data.sprites.front_default;
     nextStep.types = getPokemonTypes(res.data.types);
     nextStep.next_step = evolutionTree;

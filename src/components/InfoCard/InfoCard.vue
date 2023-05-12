@@ -24,14 +24,11 @@
             </div>
 
             <types-card v-if="pokemon?.pokemonTypes" :types="pokemon.pokemonTypes"></types-card>
-
-            <!-- Button trigger modal -->
+            
             <button @click="modalTrigger()" type="button" 
                 class="btn info-card__btn-modal-trigger">
                 Show Details
             </button>
-
-            <!-- Modal -->
         </div>
     </div>
   

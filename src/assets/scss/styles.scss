@@ -46,6 +46,8 @@ justify-content: center;
 .pokedex__pokemon-sprites__img {
     align-items: center;
     display: flex;
+    -webkit-filter: drop-shadow(4px 4px 4px rgba(4,8,12,.2));
+    filter: drop-shadow(4px 4px 4px rgba(4,8,12,.2));
     flex: 0 0 90px;
     justify-content: center;
     min-height: 96px;
